@@ -12,6 +12,7 @@ import { Head, Link, nexusProps, visit } from '@laravext/react';
 import axios from 'axios';
 import { useForm } from '@/hooks/use-form';
 import { useTranslation } from 'react-i18next';
+import useAuth from '@/hooks/use-auth';
 
 interface LoginForm {
     email: string;
@@ -23,10 +24,11 @@ export default function Login() {
     const { canResetPassword } = nexusProps();
 
     const {t} = useTranslation();
+    const { refreshUser} = useAuth();
 
     const { data, setData, errors, setErrors, processing, setProcessing } = useForm({
-        email: '',
-        password: '',
+        email: 'test@example.com',
+        password: 'password',
         remember: false,
     });
 
@@ -35,7 +37,8 @@ export default function Login() {
         setProcessing(true);
 
         axios.post('/api/login', data).then((response) => {
-            visit(route('dashboard'));
+            refreshUser();
+            visit('/settings/profile');
         }).catch((error) => {
             setErrors(error.response.data.errors);
         }).finally(() => {

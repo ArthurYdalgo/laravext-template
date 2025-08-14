@@ -8,10 +8,12 @@ import AuthLayout from '@/layouts/auth-layout';
 import { Head, nexusProps, visit } from '@laravext/react';
 import axios from 'axios';
 import { useForm } from '@/hooks/use-form';
+import useAuth from '@/hooks/use-auth';
 
 export default function VerifyEmail() {
     const [status, setStatus] = useState(nexusProps().status);
     const { processing, setProcessing } = useForm({});
+    const {logout} = useAuth();
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -24,8 +26,9 @@ export default function VerifyEmail() {
         });
     };
 
-    const logout = () => {
+    const handleLogout = () => {
         axios.post('/api/logout').then(() => {
+            logout();
             visit(route('home'));
         });
     };
@@ -46,7 +49,7 @@ export default function VerifyEmail() {
                     Resend verification email
                 </Button>
 
-                <TextLink onClick={logout} className="mx-auto block text-sm">
+                <TextLink onClick={handleLogout} className="mx-auto block text-sm">
                     Log out
                 </TextLink>
             </form>

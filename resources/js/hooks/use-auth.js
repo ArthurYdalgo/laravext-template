@@ -12,6 +12,9 @@ const useAuth = create((set) => ({
     catch (error) {
       set(() => ({ user: null }));
     }
+  },
+  logout: () => {
+    set(() => ({ user: null }));
   }
 }))
 

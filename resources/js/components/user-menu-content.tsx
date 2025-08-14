@@ -1,5 +1,6 @@
 import { DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { UserInfo } from '@/components/user-info';
+import useAuth from '@/hooks/use-auth';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { type User } from '@/types';
 import { Link, visit } from '@laravext/react';
@@ -12,10 +13,12 @@ interface UserMenuContentProps {
 
 export function UserMenuContent({ user }: UserMenuContentProps) {
     const cleanup = useMobileNavigation();
+    const { logout } = useAuth();
 
-    const logout = () => {
+    const handleLogout = () => {
         axios.post('/api/logout').then(() => {
             cleanup();
+            logout();
             visit(route('home'));
         });
     }
@@ -38,7 +41,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-                <div className="block w-full" onClick={logout}>
+                <div className="block w-full" onClick={handleLogout}>
                     <LogOut className="mr-2" />
                     Log out
                 </div>
