@@ -1,4 +1,6 @@
 import AppLogoIcon from '@/components/app-logo-icon';
+import AppearanceToggleDropdown from '@/components/appearance-dropdown';
+import LanguageToggleDropdown from '@/components/language-dropdown';
 import { Link } from '@laravext/react';
 
 interface AuthLayoutProps {
@@ -11,6 +13,10 @@ interface AuthLayoutProps {
 export default function AuthSimpleLayout({ children, title, description }: AuthLayoutProps) {
     return (
         <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+            <div className="absolute top-4 right-4 z-10 flex space-x-2">
+                <AppearanceToggleDropdown />
+                <LanguageToggleDropdown />
+            </div>
             <div className="w-full max-w-sm">
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col items-center gap-4">

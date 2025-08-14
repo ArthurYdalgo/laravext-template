@@ -1,4 +1,8 @@
 @import 'tailwindcss';
+/* @import "tailwindcss/preflight"; */
+/* @tailwind utilities; */
+@config "../../tailwind.config.js";
+
 
 @plugin 'tailwindcss-animate';
 
@@ -155,4 +159,15 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.bg-gray-faded {
+    background-color: rgba(128, 128, 128, 0.1);
 }

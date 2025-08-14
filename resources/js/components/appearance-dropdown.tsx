@@ -21,20 +21,20 @@ export default function AppearanceToggleDropdown({ className = '', ...props }: H
     return (
         <div className={className} {...props}>
             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger className='cursor-pointer' asChild>
                     <Button variant="ghost" size="icon" className="h-9 w-9 rounded-md">
                         {getCurrentIcon()}
                         <span className="sr-only">Toggle theme</span>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => updateAppearance('light')}>
+                    <DropdownMenuItem className='cursor-pointer' onClick={() => updateAppearance('light')}>
                         <span className="flex items-center gap-2">
                             <Sun className="h-5 w-5" />
                             Light
                         </span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => updateAppearance('dark')}>
+                    <DropdownMenuItem className='cursor-pointer' onClick={() => updateAppearance('dark')}>
                         <span className="flex items-center gap-2">
                             <Moon className="h-5 w-5" />
                             Dark

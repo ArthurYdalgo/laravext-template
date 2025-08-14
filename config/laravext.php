@@ -49,7 +49,7 @@ return [
     /**
      * By default, these are the file extensions that will be used to search for the nexus files. Change it to your liking.
      */
-    'file_extensions' => ['jsx', 'tsx', 'js', 'ts'],
+    'file_extensions' => ['jsx', 'tsx'],
 
     /**
      * The router automatically generates a version based on the build files or the assets' url, but in case you want to
@@ -76,7 +76,7 @@ return [
         /**
          * If set to true, the server will attempt to server side render your javascript, and if set to false, it won't.
          */
-        'enabled' => true,
+        'enabled' => env('LARAVEXT_JAVASCRIPT_SERVER_SIDE_RENDERING_ENABLED', false),
 
         /**
          * You can also set as 'only' or 'except' to specify the URIs that should(n't) be SSR'd, if for some reason you need this

@@ -27,7 +27,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('verification.notice');
 });
 
-Route::middleware(['guest'])->group(function () {
+Route::middleware(['guest:sanctum'])->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::nexus('register')->name('register');
     

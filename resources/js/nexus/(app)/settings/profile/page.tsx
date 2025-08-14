@@ -1,4 +1,4 @@
-import { type BreadcrumbItem, type SharedData } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import { Transition } from '@headlessui/react';
 import { FormEventHandler, useState } from 'react';
 
@@ -8,10 +8,12 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useForm } from '@/hooks/use-form';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { Head, nexusProps, sharedProps, visit } from '@laravext/react';
-import { useForm } from '@/hooks/use-form';
+import useAuth from '@/hooks/use-auth';
+
 import axios from 'axios';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -22,12 +24,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Profile() {
-    const { auth } = sharedProps();
+    
+    const { user, refreshUser } = useAuth();
     const { mustVerifyEmail } = nexusProps();
 
     const { data, setData, errors, setErrors, processing, setProcessing, recentlySuccessful, setRecentlySuccessful, clearErrors } = useForm({
-        name: auth.user.name,
-        email: auth.user.email,
+        name: user?.name,
+        email: user?.email,
     });
 
     const [status, setStatus] = useState(null);
@@ -38,21 +41,25 @@ export default function Profile() {
         setRecentlySuccessful(false);
         clearErrors();
 
-        axios.patch('/api/settings/profile', data).then(() => {
-            setRecentlySuccessful(true);
-            visit('/settings/profile');
-        }).catch((error) => {
-            setErrors(error.response.data.errors);
-        }).finally(() => {
-            setProcessing(false);
-        });
+        axios
+            .patch('/api/settings/profile', data)
+            .then(() => {
+                setRecentlySuccessful(true);
+                refreshUser();
+            })
+            .catch((error) => {
+                setErrors(error.response.data.errors);
+            })
+            .finally(() => {
+                setProcessing(false);
+            });
     };
 
     const sendVerificationEmail = () => {
-        axios.post('/api/email/verification-notification').then(({data}) => {
+        axios.post('/api/email/verification-notification').then(({ data }) => {
             setStatus(data.status);
         });
-    }
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -96,13 +103,13 @@ export default function Profile() {
                             <InputError className="mt-2" message={errors.email} />
                         </div>
 
-                        {mustVerifyEmail && auth.user.email_verified_at === null && (
+                        {mustVerifyEmail && user?.email_verified_at === null && (
                             <div>
                                 <p className="mt-2 text-sm text-neutral-800 dark:text-neutral-200">
-                                    Your email address is unverified.
-                                    {" "}<button
+                                    Your email address is unverified.{' '}
+                                    <button
                                         onClick={sendVerificationEmail}
-                                        type='button'
+                                        type="button"
                                         className="rounded-md text-sm text-neutral-600 underline hover:text-neutral-900 focus:ring-2 focus:ring-offset-2 focus:outline-hidden dark:text-neutral-400 dark:hover:text-neutral-300"
                                     >
                                         Click here to re-send the verification email.
@@ -115,9 +122,7 @@ export default function Profile() {
                                     </div>
                                 )}
                                 {status === 'email-already-verified' && (
-                                    <div className="mt-2 text-sm font-medium text-green-600">
-                                        Your email address is already verified.
-                                    </div>
+                                    <div className="mt-2 text-sm font-medium text-green-600">Your email address is already verified.</div>
                                 )}
                             </div>
                         )}
