@@ -34,9 +34,9 @@ return Application::configure(basePath: dirname(__DIR__))
          * 
          * @source https://laravel.com/docs/12.x/csrf#csrf-excluding-uris
          */ 
-        // $middleware->validateCsrfTokens(except: [
-        //     'api/*'
-        // ]);
+        $middleware->validateCsrfTokens(except: [
+            '*'
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

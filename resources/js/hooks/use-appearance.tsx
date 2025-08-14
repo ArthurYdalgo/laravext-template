@@ -4,6 +4,8 @@ import { sharedProps } from '@laravext/react';
 
 export type Appearance = 'light' | 'dark';
 
+const defaultAppearance: Appearance = 'dark';
+
 const applyTheme = (appearance: Appearance) => {
     const isDark = appearance === 'dark';
 
@@ -11,12 +13,12 @@ const applyTheme = (appearance: Appearance) => {
 };
 
 const getCookieAppearance = () => {
-    let cookieAppearance = Cookies.get('appearance') ?? 'dark';
+    let cookieAppearance = Cookies.get('appearance') ?? defaultAppearance;
     return cookieAppearance as Appearance;
 }
 
 export function initializeTheme() {
-    const savedAppearance = (getCookieAppearance() as Appearance) || 'dark';
+    const savedAppearance = (getCookieAppearance() as Appearance) || defaultAppearance;
 
     applyTheme(savedAppearance);
 }

@@ -10,6 +10,7 @@ import AuthLayout from '@/layouts/auth-layout';
 import { Head, visit } from '@laravext/react';
 import { useForm } from '@/hooks/use-form';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 interface RegisterForm {
     name: string;
@@ -25,6 +26,8 @@ export default function Register() {
         password: '',
         password_confirmation: '',
     });
+
+    const {t} = useTranslation();
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -43,7 +46,7 @@ export default function Register() {
             <form className="flex flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6">
                     <div className="grid gap-2">
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="name">{t("Name")}</Label>
                         <Input
                             id="name"
                             type="text"
