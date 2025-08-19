@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
-import { showDialog } from '@/providers/DialogProvider';
+import { showDialog } from '@/providers/dialog-provider';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@laravext/react';
 // import Loading from '@/components/loading';

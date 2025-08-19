@@ -13,7 +13,7 @@ import en from './../../lang/en.json';
 import pt from './../../lang/pt.json';
 import { initializeTheme } from './hooks/use-appearance';
 import { Toaster } from './components/ui/sonner';
-import { DialogProvider } from './providers/DialogProvider';
+import { DialogProvider } from './providers/dialog-provider';
 
 declare global {
     const route: typeof routeFn;
