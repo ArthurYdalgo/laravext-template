@@ -18,6 +18,7 @@ export default function Paginated({
     initialPagination = {},
     fillInMissingItems = false,
     sortKeyLimit = null,
+    compactLinks = true,
     paginated = (pagination) => null,
     onPaginationUpdated = (pagination) => null,
 }) {
@@ -142,6 +143,7 @@ export default function Paginated({
             {paginated({pagination, handleSortBy})}
             <If condition={!pagination.initialLoad}>
                 <Links
+                    compact={compactLinks}
                     className="mt-4"
                     onPaginateTo={paginateTo}
                     pagination={pagination}

@@ -4,7 +4,7 @@ export default function Table ({
     endpoint,
     params,
     initialPagination = {},
-
+    compactLinks = true,
     tableHead = ({ sortBy, handleClick }) => null,
     tableClassName = "",
     sortKeyLimit = null,
@@ -17,6 +17,7 @@ export default function Table ({
     return (
         <>
             <Paginated
+                compactLinks={compactLinks}
                 params={params}
                 sortKeyLimit={sortKeyLimit}
                 initialPagination={initialPagination}
