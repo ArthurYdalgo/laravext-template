@@ -39,34 +39,23 @@ export default function Links({
 
     const pages = useMemo(() => {
         const total = pagination.meta.last_page;
-        let pagesArray = [];
 
-        if (total <= 2 * pageRange + 1) {
-            return Array.from({ length: total }, (_, i) => i + 1);
-        } else {
-            pagesArray.push(1);
+        // Build the core set: first, prev, current, next, last
+        const pageNumbers = [1, currentPage - 1, currentPage, currentPage + 1, total]
+            .filter((n, index, self) => n >= 1 && n <= total && self.indexOf(n) === index) // Remove duplicates
+            .sort((a, b) => a - b);
 
-            if (currentPage <= pageRange + 1) {
-                pagesArray.push(...Array.from({ length: 2 * pageRange + 1 }, (_, i) => i + 2));
-            } else if (currentPage > total - pageRange) {
-                pagesArray.push(...Array.from({ length: 2 * pageRange + 1 }, (_, i) => total - 2 * pageRange + i));
-            } else {
-                pagesArray.push(...Array.from({ length: 2 * pageRange + 1 }, (_, i) => currentPage - pageRange + i));
+        // Inject ellipsis for gaps >1
+        const pagesArray = [];
+        for (let i = 0; i < pageNumbers.length; i++) {
+            if (i > 0 && pageNumbers[i] - pageNumbers[i - 1] > 1) {
+                pagesArray.push('...');
             }
-
-            if (!pagesArray.includes(total)) {
-                pagesArray.push(total);
-            }
-
-            for (let i = 1; i < pagesArray.length; i++) {
-                if (pagesArray[i] - pagesArray[i - 1] >= 2) {
-                    pagesArray.splice(i, 0, '...');
-                }
-            }
-
-            return pagesArray;
+            pagesArray.push(pageNumbers[i]);
         }
-    }, [pagination.meta.last_page, currentPage, pageRange]);
+
+        return pagesArray;
+    }, [pagination.meta.last_page, currentPage]);
 
     const paginateTo = () => {
         onPaginateTo({ page: currentPage, perPage });
