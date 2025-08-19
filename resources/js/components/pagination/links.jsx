@@ -24,6 +24,7 @@ export default function Links({
     showGoToStartButton = false,
     showGoToEndButton = false,
     hideTotal = false,
+    compact = true,
     onPaginateTo,
     perPageOptions = [5, 8, 10, 15, 25, 50, 100],
     className = '',
@@ -40,8 +41,8 @@ export default function Links({
     const pages = useMemo(() => {
         const total = pagination.meta.last_page;
 
-        // Build the core set: first, prev, current, next, last
-        const pageNumbers = [1, currentPage - 1, currentPage, currentPage + 1, total]
+                  // Build the core set: first, current, last
+        const pageNumbers = (compact ? [1, currentPage, total] : [1, currentPage - 1, currentPage, currentPage + 1, total])
             .filter((n, index, self) => n >= 1 && n <= total && self.indexOf(n) === index) // Remove duplicates
             .sort((a, b) => a - b);
 
