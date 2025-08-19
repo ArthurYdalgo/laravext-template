@@ -12,6 +12,8 @@ import es from './../../lang/es.json';
 import en from './../../lang/en.json';
 import pt from './../../lang/pt.json';
 import { initializeTheme } from './hooks/use-appearance';
+import { Toaster } from './components/ui/sonner';
+import { DialogProvider } from './providers/DialogProvider';
 
 declare global {
     const route: typeof routeFn;
@@ -65,6 +67,13 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             moment.locale(locale);
+        },
+
+        setup: ({ component, laravext }: any) => {
+            return <DialogProvider>
+                {component}
+                <Toaster richColors />
+            </DialogProvider>
         },
 
         progress: {
