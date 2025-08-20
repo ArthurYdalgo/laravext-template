@@ -6,7 +6,7 @@ import axios from "axios";
 
 import useStateRef from "react-usestateref";
 
-import { convertSortingStateToString } from "@/tools/query-builder-tools";
+import { convertSortingStateToString } from "@/lib/query-builder-tools";
 import Links from "@/components/pagination/links";
 import { useNonInitialEffect } from "@/hooks/use-non-initial-effect";
 import If from "../if";
