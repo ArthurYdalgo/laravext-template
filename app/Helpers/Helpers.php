@@ -63,72 +63,6 @@ if (!function_exists('isEnvProduction')) {
     }
 }
 
-if (!function_exists('slackUserId')) {
-    function slackUserId()
-    {
-        return user()?->slack_user_id;
-    }
-}
-
-if (!function_exists('extractAtMentionsFromString')) {
-    function extractAtMentionsFromString($string, $ignore = [])
-    {
-        preg_match_all('/(?<![\._a-zA-Z0-9-])@[\._a-zA-Z0-9-]+/i', $string, $matches);
-
-        return collect($matches[0])->map(function ($match) use ($ignore) {
-            $cleaned_match = str($match)->remove(['@'])->toString();
-
-            return in_array($cleaned_match, (array) $ignore) ? null : $cleaned_match;
-        })->filter()->values()->toArray();
-    }
-}
-
-if (!function_exists('extractEmailsFromString')) {
-    function extractEmailsFromString($string)
-    {
-        preg_match_all('/[\._a-zA-Z0-9-]+@[\._a-zA-Z0-9-]+/i', $string, $matches);
-
-        return $matches[0];
-    }
-}
-
-if (!function_exists('extractUrlsFromString')) {
-    function extractUrlsFromString($string)
-    {
-        $pattern = '/(?:(?:https?:\/\/|www\.|ftp\.)\S+\.\S+)|(?<=\s|^)(?:(?!\S*@)\S+\.[A-Za-z.]+)(?=\s|$)/i';
-        preg_match_all($pattern, $string, $matches);
-
-        return $matches[0];
-    }
-}
-
-if (!function_exists('extractIdentificationsFromThread')) {
-    function extractIdentificationsFromThread($channel_id = null, $thread_ts = null, $additional_text = [])
-    {
-        $messages = collect($additional_text);
-
-        if ($channel_id && $thread_ts) {
-            $thread = slackService()->getConversationReplies($channel_id, $thread_ts);
-            $thread_messages = collect($thread['messages'])->whereNull('bot_id')->pluck("text");
-            $messages = $messages->merge($thread_messages);
-        }
-
-        $text = $messages->join("\n");
-
-        return extractIdentificationsFromString($text);
-    }
-}
-
-if (!function_exists('extractIdentificationsFromString')) {
-    function extractIdentificationsFromString($string, $prefix = null)
-    {
-        $emails = extractEmailsFromString($string);
-        $urls = extractUrlsFromString($string);
-
-        return compact('emails', 'urls');
-    }
-}
-
 if (!function_exists("logError")) {
     function logError($message, array $context = [], $tags = [])
     {
@@ -164,27 +98,6 @@ if (!function_exists('getMimeFromBinary')) {
     }
 }
 
-
-if (!function_exists('slackService')) {
-    /**
-     * @return \App\Services\Slack\SlackService
-     */
-    function slackService()
-    {
-        return new SlackService();
-    }
-}
-
-if (!function_exists('slackEventService')) {
-    /**
-     * @return \App\Services\Slack\SlackEventService
-     */
-    function slackEventService()
-    {
-        return new SlackEventService();
-    }
-}
-
 if (!function_exists('user')) {
     /**
      * Get the currently authenticated user.
@@ -196,157 +109,6 @@ if (!function_exists('user')) {
     function user($guard = null)
     {
         return auth($guard)->user();
-    }
-}
-
-if (!function_exists('workspace')) {
-    /**
-     * Get the currently authenticated workspace.
-     * 
-     * @return \App\Models\Workspace|null
-     */
-    function workspace()
-    {
-        /**
-         * @todo
-         */
-    }
-}
-
-if (!function_exists('profile')) {
-    /**
-     * Get the currently authenticated profile.
-     * 
-     * @return \App\Models\Profile|null
-     */
-    function profile()
-    {
-        /**
-         * @todo
-         */
-    }
-}
-
-if (!function_exists('sendSlackMessage')) {
-    function sendSlackMessage($message, $channel = null, $thread_ts = null, $additional_data = [])
-    {
-        return slackService()->sendMessageToChannel($message, $channel, $thread_ts, $additional_data);
-    }
-}
-
-if (!function_exists('sendSlackContextMessage')) {
-    function sendSlackContextMessage($message, $channel = null, $thread_ts = null)
-    {
-        return sendSlackLayoutMessage('contextMessage', $channel, [
-            'TEXT' => $message,
-        ], $thread_ts);
-    }
-}
-
-if (!function_exists('sendTemporarySlackContextMessage')) {
-    /**
-     * Send Temporary Slack Context Message
-     * 
-     * Sends a message to a slack channel and schedules it's deletion after a delay
-     * 
-     * @param string $message Message to be sent
-     * @param string $channel Channel to send the message to
-     * @param string $thread_ts Thread to send the message to
-     * @param mixed $delay Delay of the deletion
-     * 
-     */
-    function sendTemporarySlackContextMessage($message, $channel = null, $thread_ts = null, $delay = 10)
-    {
-        $message = sendSlackContextMessage($message, $channel, $thread_ts);
-
-        return slackService()->scheduleDeleteMessage($channel, $message['ts'], $delay);
-    }
-}
-
-if (!function_exists('sendTemporarySlackMessage')) {
-    /**
-     * Send Temporary Slack Message
-     * 
-     * Sends a message to a slack channel and schedules it's deletion after a delay
-     * 
-     * @param string $message Message to be sent
-     * @param string $channel Channel to send the message to
-     * @param string $thread_ts Thread to send the message to
-     * @param mixed $delay Delay of the deletion
-     * 
-     */
-    function sendTemporarySlackMessage($message, $channel = null, $thread_ts = null, $delay = 10)
-    {
-        $message = sendSlackMessage($message, $channel, $thread_ts);
-
-        return slackService()->scheduleDeleteMessage($channel, $message['ts'], $delay);
-    }
-}
-
-if (!function_exists('slackMessageLayout')) {
-    function slackMessageLayout($name, $replace = [], $escape_double_quotes = true)
-    {
-        $path = $name;
-
-        if (!Str::endsWith($path, '.json')) {
-            $path .= ".json";
-        }
-
-        $slack_message = file_get_contents(resource_path("SlackMessagesLayouts/{$path}"));
-
-        foreach ($replace as $old => $new) {
-            $new = str($new)->whenContains("\n", fn($str) => $str->replace("\n", "\\n"))
-                ->when($escape_double_quotes && str($new)->contains("\""), fn($str) => $str->replace("\"", "\\\""))
-                ->toString();
-            $slack_message = Str::replace("__{$old}__", $new, $slack_message);
-        }
-
-        return json_decode($slack_message, true);
-    }
-}
-
-if (!function_exists('slackMessageLayoutExists')) {
-    function slackMessageLayoutExists($name)
-    {
-        $path = $name;
-
-        if (!Str::endsWith($path, '.json')) {
-            $path .= ".json";
-        }
-
-        return file_exists(resource_path("SlackMessagesLayouts/{$path}"));
-    }
-}
-
-if (!function_exists('extractPrefixedKeys')) {
-    function extractPrefixedKeys($array, $prefix, $keep_unmatched_keys = false, $keep_prefix = false)
-    {
-        return collect($array)->mapWithKeys(function ($value, $key) use ($prefix, $keep_unmatched_keys, $keep_prefix) {
-            if (str($key)->startsWith($prefix)) {
-                $new_key = $keep_prefix ? $key : str($key)->removePrefix($prefix)->toString();
-                return [$new_key => $value];
-            }
-
-            return $keep_unmatched_keys ? [$key => $value] : [];
-        })->toArray();
-    }
-}
-
-if (!function_exists('sendTemporarySlackLayoutMessage')) {
-    function sendTemporarySlackLayoutMessage($layout, $channel = null, $replace = [], $thread_ts = null, $delay = 10, $escape_double_quotes = true)
-    {
-        $message = sendSlackLayoutMessage($layout, $channel, $replace, $thread_ts, escape_double_quotes: $escape_double_quotes);
-
-        return slackService()->scheduleDeleteMessage($channel, $message['ts'], $delay);
-    }
-}
-
-if (!function_exists('sendSlackLayoutMessage')) {
-    function sendSlackLayoutMessage($layout, $channel = null, $replace = [], $thread_ts = null, $additional_data = [], $escape_double_quotes = true)
-    {
-        $message = slackMessageLayout($layout, $replace, $escape_double_quotes);
-
-        return sendSlackMessage($message, $channel, $thread_ts, $additional_data);
     }
 }
 
@@ -457,7 +219,7 @@ if (!function_exists('apiCall')) {
      * @return Illuminate\Http\Client\Response
      * @throws \GuzzleHttp\Exception\ClientException
      */
-    function apiCall($endpoint, $method = 'GET', $body = [], $headers = [], $params = [], $http_errors = true, $debug = false, $verify = null, $extension = null)
+    function apiCall($endpoint, $method = 'GET', $body = [], $headers = [], $params = [], $http_errors = true, $debug = false, $verify = null)
     {
         $default_options = [
             'method' => 'GET',
@@ -510,19 +272,9 @@ if (!function_exists('apiCall')) {
         }
 
         $user = user();
-        $profile = profile();
-        $workspace = workspace();
 
         if ($user) {
             $user = $user->toArray();
-        }
-
-        if ($profile) {
-            $profile = $profile->toArray();
-        }
-
-        if ($workspace) {
-            $workspace = $workspace->toArray();
         }
 
         $tags = [];
@@ -530,20 +282,6 @@ if (!function_exists('apiCall')) {
         if ($user) {
             try {
                 $tags[] = "Auth:{$user['id']}";
-            } catch (\Throwable $th) {
-            }
-        }
-
-        if ($profile) {
-            try {
-                $tags[] = "Profile:{$profile['id']}";
-            } catch (\Throwable $th) {
-            }
-        }
-
-        if ($workspace) {
-            try {
-                $tags[] = "Workspace:{$workspace['id']}";
             } catch (\Throwable $th) {
             }
         }
@@ -564,9 +302,6 @@ if (!function_exists('apiCall')) {
             if ($http_response->failed()) {
                 logError("apiCall Failed with Status Code: {$code} - " . str($endpoint)->limit(100), [
                     'user' => $user,
-                    'profile' => $profile,
-                    'workspace' => $workspace,
-                    'extension' => $extension,
                     'method' => $method,
                     'endpoint' => $endpoint,
                     'guzzle_options' => $guzzleOptions,
@@ -577,9 +312,6 @@ if (!function_exists('apiCall')) {
             if ($debug) {
                 logInfo("apiCall Debug - " . str($endpoint)->limit(100), [
                     'user' => $user,
-                    'profile' => $profile,
-                    'workspace' => $workspace,
-                    'extension' => $extension,
                     'method' => $method,
                     'endpoint' => $endpoint,
                     'guzzle_options' => $guzzleOptions,
@@ -594,9 +326,6 @@ if (!function_exists('apiCall')) {
 
             logError("apiCall Failed with Status Code: {$code}. Exception message: " . $exception->getMessage(), [
                 'user' => $user,
-                'profile' => $profile,
-                'workspace' => $workspace,
-                'extension' => $extension,
                 'method' => $method,
                 'endpoint' => $endpoint,
                 'guzzle_options' => $guzzleOptions,
@@ -608,9 +337,6 @@ if (!function_exists('apiCall')) {
 
             logError("apiCall Failed with Exception: " . $th->getMessage(), [
                 'user' => $user,
-                'profile' => $profile,
-                'workspace' => $workspace,
-                'extension' => $extension,
                 'method' => $method,
                 'endpoint' => $endpoint,
                 'guzzle_options' => $guzzleOptions,
