@@ -6,7 +6,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
-use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Session\Middleware\StartSession;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -16,16 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function(Middleware $middleware){
-        $middleware->prepend(HandleCors::class);
-    })
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [
             HandleLaravextRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
-
-        $middleware->statefulApi();
         
         $middleware->api(append: [
             EncryptCookies::class,
@@ -36,10 +30,10 @@ return Application::configure(basePath: dirname(__DIR__))
          * By default, CSRF is enabled for api routes. Uncomment the following
          * lines to disable CSRF protection for specific URIs.
          * 
-         * @source https://laravel.com/docs/12.x/csrf#csrf-excluding-uris
+         * @source https://laravel.com/docs/13.x/csrf#csrf-excluding-uris
          */ 
         $middleware->validateCsrfTokens(except: [
-            '*'
+            'api/*'
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
