@@ -4,7 +4,7 @@ return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
     'allowed_methods'   => ['*'],
     'allowed_origins'   => [
-        'https://car-rental-saet-2025-main-rfctpl.laravel.cloud',
+        'https://laravext-template.test',
         'http://localhost:3000',
     ],
     'allowed_origins_patterns' => [],
