@@ -34,3 +34,4 @@ storage/framework/views/*
 !storage/framework/views/.gitkeep
 storage/logs/laravel.log
 .DS_Store
+laravext_template
