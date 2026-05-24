@@ -5,6 +5,10 @@ use App\Services\Slack\SlackService;
 use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Illuminate\Support\Facades\Date;
 
 if (!function_exists('isEnvDevelopment')) {
     /**
@@ -20,6 +24,16 @@ if (!function_exists('isEnvDevelopment')) {
     }
 }
 
+if (!function_exists('line')) {
+    function line($string, $style = 'info')
+    {
+        $output = new ConsoleOutput();
+
+        $styled = "<$style>  $string</$style>";
+
+        $output->writeln($styled);
+    }
+}
 
 if (!function_exists('isEnvLocal')) {
     /**
@@ -63,6 +77,81 @@ if (!function_exists('isEnvProduction')) {
     }
 }
 
+if (!function_exists('defaultErrorResponseMessage')) {
+    function defaultErrorResponseMessage()
+    {
+        return 'Erro ao processar a requisição';
+    }
+}
+
+if (!function_exists('defaultSuccessResponseMessage')) {
+    function defaultSuccessResponseMessage()
+    {
+        return 'Requisição processada com sucesso';
+    }
+}
+
+if (!function_exists('searchZipCode')) {
+    function searchZipCode(string $zip_code, $use_cache = true)
+    {
+        $cache_store = 'file';
+        $cache_key = "{$zip_code}_search";
+        
+        Cache::forgetIf($cache_key, !$use_cache, $cache_store);
+        
+        return Cache::store($cache_store)->rememberForever($cache_key, function () use ($zip_code) {
+            $response = apiCall("https://viacep.com.br/ws/{$zip_code}/json/");
+    
+            return [
+                'state' => $response['estado'] ?? null,
+                'uf' => $response['uf'],
+                'city' => $response['localidade'],
+                'district' => $response["bairro"],
+                'street' => $response['logradouro'],
+                'zip_code' => $response['cep'],
+            ];
+        });
+    }
+}
+
+if (!function_exists('carbon')) {
+    /**
+     * @return \Carbon\Carbon
+     */
+    function carbon($date = null, $timezone = null)
+    {
+        return Date::parse($date, $timezone);
+    }
+}
+
+if (!function_exists('handleOrCatch')) {
+    function handleOrCatch(\Closure $callback, $error_response_message = null, $successful_response_message = null, $use_exception_message = false)
+    {
+        $controller = new Controller();
+        try {
+            $message = $successful_response_message ?? defaultSuccessResponseMessage();
+
+            $callback_result = $callback();
+
+            if (is_null($callback_result) || is_string($callback_result)) {
+                return $controller->successResponse($callback_result ?? $message);
+            }
+
+            if (is_array($callback_result)) {
+                return $controller->successResponse($message, $callback_result);
+            }
+
+            return $callback_result;
+        } catch (\Throwable $th) {
+            report($th);
+
+            $message = $use_exception_message ? $th->getMessage() : ($error_response_message ?? defaultErrorResponseMessage());
+
+            return $controller->errorResponse($message, $th);
+        }
+    }
+}
+
 if (!function_exists("logError")) {
     function logError($message, array $context = [], $tags = [])
     {
@@ -94,7 +183,7 @@ if (!function_exists('getMimeFromBinary')) {
 
         $mime = $finfo->buffer($binary_content);
 
-        return $extension_only ?  explode('/', $mime)[1] : $mime;
+        return $extension_only ? explode('/', $mime)[1] : $mime;
     }
 }
 
@@ -133,17 +222,6 @@ if (!function_exists('humanFileSize')) {
         if ($factor == 0) $dec = 0;
 
         return sprintf("%.{$dec}f %s", $bytes / (1024 ** $factor), $size[$factor]);
-    }
-}
-
-if (!function_exists('isEqual')) {
-    function isEqual($first_value, $second_value, $allow_null = false, $strict = false)
-    {
-        if (!$allow_null && (is_null($first_value) || is_null($second_value))) {
-            return false;
-        }
-
-        return $strict ? $first_value === $second_value : $first_value == $second_value;
     }
 }
 
@@ -202,6 +280,14 @@ if (!function_exists('isJson')) {
     {
         json_decode($value);
         return json_last_error() === JSON_ERROR_NONE;
+    }
+}
+
+if (!function_exists('failedAuthorizationResponseException')) {
+    function failedAuthorizationResponseException($message = null)
+    {
+        $response = (new Controller)->unauthorizedResponse($message ?? __('Unauthorized'));
+        throw new \Illuminate\Http\Exceptions\HttpResponseException($response);
     }
 }
 

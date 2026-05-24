@@ -14,7 +14,7 @@ class EmailVerificationPromptController extends Controller
     public function __invoke(Request $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('clientes', absolute: false));
         }
 
         // This is done so that when the user clicks on the link in the email, they are redirected to the dashboard.

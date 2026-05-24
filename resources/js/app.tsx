@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         beforeSetup: ({ laravext }: any) => {
             const user = laravext.page_data.shared_props?.auth.user;
 
-            let fallbackLng = 'en';
+            let fallbackLng = 'pt';
             let defaultLanguage = 'pt';
 
             // This is just for example purposes, using i18n/moment is not a requirement

@@ -48,7 +48,7 @@ export default function Dashboard() {
             breadcrumbs={breadcrumbs}
             actions={
                 <Button size="xs" asChild>
-                    {/* <Link href={route('clientes.cadastrar')}>Cadastrar</Link> */}
+                    <Link href={route('clientes.cadastrar')}>Cadastrar</Link>
                 </Button>
             }
         >
@@ -64,7 +64,7 @@ export default function Dashboard() {
                     }
                 ></TableBanner>
                 <Table
-                    endpoint={'/api/users'}
+                    endpoint={'/api/customers'}
                     params={params}
                     tableHead={({ sortBy, handleClick }) => (
                         <TableHeader>
@@ -98,10 +98,10 @@ export default function Dashboard() {
                                         </TableCell>
                                         <TableCell className="flex gap-2">
                                             <Button asChild variant="default" size="xs">
-                                                {/* <Link href={route('clientes.customer', { customer: customer.id })}>Ver</Link> */}
+                                                <Link href={route('clientes.customer', { customer: customer.id })}>Ver</Link>
                                             </Button>
                                             <Button asChild variant="secondary" size="xs">
-                                                {/* <Link href={route('clientes.customer.editar', { customer: customer.id })}>Editar</Link> */}
+                                                <Link href={route('clientes.customer.editar', { customer: customer.id })}>Editar</Link>
                                             </Button>
                                         </TableCell>
                                     </TableRow>

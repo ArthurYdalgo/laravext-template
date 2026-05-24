@@ -14,26 +14,16 @@ const mainNavItems: NavItem[] = [
     //     icon: LayoutGrid,
     // },
     {
-        title: 'Clientes',
-        url: '/clientes',
+        title: 'Usuários',
+        url: '/usuarios',
         icon: UserCircle,
-    },
-    {
-        title: 'Veículos',
-        url: '/veiculos',
-        icon: Car,
-    },
-    {
-        title: 'Reservas',
-        url: '/reservas',
-        icon: Ticket,
     }
 ];
 
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
-        url: 'https://github.com/ArthurYdalgo/car-rental-saet-2025',
+        url: 'https://github.com/ArthurYdalgo/laravext-template',
         icon: Folder,
     },
     {
@@ -50,7 +40,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={route("usuarios")}>
+                            <Link href={route("clientes")}>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

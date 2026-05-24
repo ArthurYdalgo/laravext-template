@@ -20,12 +20,7 @@ const sidebarNavItems: NavItem[] = [
         title: 'Appearance',
         url: '/settings/appearance',
         icon: null,
-    },
-        {
-        title: 'Language',
-        url: '/settings/language',
-        icon: null,
-    },
+    }
 ];
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
