@@ -1,9 +1,11 @@
+import { Table as TableComponent } from "@/components/ui/table";
 import Paginated from "./paginated";
 
 export default function Table ({
     endpoint,
     params,
     initialPagination = {},
+    resetPageWhenParamsChange = [],
     compactLinks = true,
     tableHead = ({ sortBy, handleClick }) => null,
     tableClassName = "",
@@ -20,6 +22,7 @@ export default function Table ({
                 compactLinks={compactLinks}
                 params={params}
                 sortKeyLimit={sortKeyLimit}
+                resetPageWhenParamsChange={resetPageWhenParamsChange}
                 initialPagination={initialPagination}
                 onPaginationUpdated={onPaginationUpdated}
                 endpoint={endpoint}
@@ -39,7 +42,7 @@ export default function Table ({
                                         : ""
                                 }`}
                             >
-                                <table
+                                <TableComponent
                                     className={`min-w-full divide-y divide-gray-300 ${
                                         pagination.loading ? "opacity-50" : ""
                                     } ${tableClassName}`}
@@ -51,7 +54,7 @@ export default function Table ({
                                         },
                                     })}
                                     {tableBody(pagination)}
-                                </table>
+                                </TableComponent>
                             </div>
                         </div>
                     </div>

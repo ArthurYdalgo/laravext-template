@@ -7,27 +7,43 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuList, navigationMenuT
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
+import useAuth from '@/hooks/use-auth';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
-import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
+import { type BreadcrumbItem, type NavItem } from '@/types';
+import { Link, url } from '@laravext/react';
 import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
+import { Car, CarFront, Ticket, UserCircle } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
-import { Link, sharedProps, url } from '@laravext/react';
-import useAuth from '@/hooks/use-auth';
 
 const mainNavItems: NavItem[] = [
+    // {
+    //     title: 'Dashboard',
+    //     url: '/dashboard',
+    //     icon: LayoutGrid,
+    // },
     {
-        title: 'Dashboard',
-        url: '/dashboard',
-        icon: LayoutGrid,
+        title: 'Clientes',
+        url: '/clientes',
+        icon: UserCircle,
+    },
+    {
+        title: 'Veículos',
+        url: '/veiculos',
+        icon: Car,
+    },
+    {
+        title: 'Reservas',
+        url: '/reservas',
+        icon: Ticket,
     },
 ];
 
 const rightNavItems: NavItem[] = [
     {
         title: 'Repository',
-        url: 'https://github.com/ArthurYdalgo/laravext/tree/main/starter-kits',
+        url: 'https://github.com/ArthurYdalgo/car-rental-saet-2025',
         icon: Folder,
     },
     {
@@ -58,7 +74,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                     <Menu className="h-5 w-5" />
                                 </Button>
                             </SheetTrigger>
-                            <SheetContent side="left" className="flex h-full w-64 flex-col items-stretch justify-between bg-sidebar">
+                            <SheetContent side="left" className="bg-sidebar flex h-full w-64 flex-col items-stretch justify-between">
                                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                                 <SheetHeader className="flex justify-start text-left">
                                     <AppLogoIcon className="h-6 w-6 fill-current text-black dark:text-white" />
@@ -94,7 +110,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         </Sheet>
                     </div>
 
-                    <Link href="/dashboard" className="flex items-center space-x-2">
+                    <Link href={route('clientes')} className="flex items-center space-x-2">
                         <AppLogo />
                     </Link>
 

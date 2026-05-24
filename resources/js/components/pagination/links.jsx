@@ -15,6 +15,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import useState from 'react-usestateref';
 import { Input } from '../ui/input';
+import { Separator } from '../ui/separator';
 
 export default function Links({
     pagination,
@@ -130,7 +131,7 @@ export default function Links({
                                 ))}
                             </SelectContent>
                         </Select>
-                        <span className="mx-4 py-2 text-black/50 dark:text-white/50">|</span>
+                        <Separator orientation="vertical" className='mx-4 py-2' />
 
                         <PaginationItem>
                             <PaginationPrevious disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} />
@@ -151,7 +152,7 @@ export default function Links({
                                 disabled={currentPage === pagination.meta.last_page}
                             />
                         </PaginationItem>
-                        {!hidePageSelector && !hidePageInput && <span className="mx-4 py-2 text-black/50 dark:text-white/50">|</span>}
+                        {!hidePageSelector && !hidePageInput && <Separator orientation="vertical" className='mx-4 py-2' />}
                         {!hidePageInput && (
                             <>
                                 <Input
