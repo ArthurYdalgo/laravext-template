@@ -23,16 +23,9 @@ Recomenda-se rodar os comandos a seguir no diretório do Laravel Herd, que pode 
 Instale-o usando o comando:
 
 ```bash
-laravel new car-rental-app --using=arthurYdalgo/laravext-template
+laravel new laravext-template --using=arthurydalgo/laravext-template
 ```
 
-(Ele pode perguntar "Would you like to run npm install and npm run build?", aperte Enter para aceitar).
-
-Alternativamente, se quiser usar a versão completa (com todas as funcionalidades implementadas), use:
-
-```bash
-laravel new car-rental-app --using=arthurYdalgo/laravext-template:dev-completed
-```
 (Ele pode perguntar "Would you like to run npm install and npm run build?", aperte Enter para aceitar).
 
 Caso esteja usando Laravel Herd, navegue até o diretório do projeto, e execute (ele pode pedir para instalar o concurrently, aceite):
