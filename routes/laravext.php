@@ -17,10 +17,12 @@ Route::nexus('')->name('home');
 
 // Some of these route is explicitly named to be consistent with the Laravel default,
 // like "password.reset" and "password.confirm"
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::laravext("dashboard");
     Route::laravext('settings');
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('settings.profile');
+
+    Route::nexus('usuarios')->name('usuarios');
 
     Route::nexus('confirm-password')->name('password.confirm');
     Route::get('verify-email', EmailVerificationPromptController::class)

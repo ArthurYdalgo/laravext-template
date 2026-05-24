@@ -5,7 +5,7 @@ export default function Loading ({ condition = true, outerDivClassName = '', loa
     <>
       {condition && (
         
-        <div className={`fixed  inset-0 flex items-center justify-center ${outerDivClassName}`}>
+        <div className={`fixed z-10 inset-0 flex items-center justify-center ${outerDivClassName}`}>
           <LoaderCircle className="h-10 w-10 animate-spin mr-2" />
         </div>
       )}

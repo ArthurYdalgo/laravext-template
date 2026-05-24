@@ -3,27 +3,37 @@ import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { BookOpen, Folder, LayoutGrid, UserCircle } from 'lucide-react';
+import { BookOpen, Car, CarFront, Folder, LayoutGrid, Ticket, UserCircle } from 'lucide-react';
 import AppLogo from './app-logo';
 import { Link } from '@laravext/react';
 
 const mainNavItems: NavItem[] = [
+    // {
+    //     title: 'Dashboard',
+    //     url: '/dashboard',
+    //     icon: LayoutGrid,
+    // },
     {
-        title: 'Dashboard',
-        url: '/dashboard',
-        icon: LayoutGrid,
+        title: 'Clientes',
+        url: '/clientes',
+        icon: UserCircle,
     },
     {
-        title: 'Usuários',
-        url: '/usuarios',
-        icon: UserCircle,
+        title: 'Veículos',
+        url: '/veiculos',
+        icon: Car,
+    },
+    {
+        title: 'Reservas',
+        url: '/reservas',
+        icon: Ticket,
     }
 ];
 
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
-        url: 'https://github.com/ArthurYdalgo/laravext/tree/main/starter-kits',
+        url: 'https://github.com/ArthurYdalgo/car-rental-saet-2025',
         icon: Folder,
     },
     {
@@ -40,7 +50,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard">
+                            <Link href={route("usuarios")}>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

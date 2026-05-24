@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import useState from "react-usestateref";
 import Pagination from "@/components/pagination/links";
 
@@ -10,12 +10,13 @@ import { convertSortingStateToString } from "@/lib/query-builder-tools";
 import Links from "@/components/pagination/links";
 import { useNonInitialEffect } from "@/hooks/use-non-initial-effect";
 import If from "../if";
-import Loading from "../Loading";
+import Loading from "../loading";
 
 export default function Paginated({
     endpoint,
     params,
     initialPagination = {},
+    resetPageWhenParamsChange = [],
     fillInMissingItems = false,
     sortKeyLimit = null,
     compactLinks = true,
@@ -32,14 +33,39 @@ export default function Paginated({
         sortBy: [],
     });
 
+    // Track previous params to determine if we should reset the page
+    const prevParamsRef = useRef(params);
+
     useNonInitialEffect(() => {
-        setPagination((prevState) => ({
-            ...prevState,
-            page: 1,
-            loading: true,
-        }));
+        // Determine if any of the keys listed in resetPageWhenParamsChange actually changed
+        const keysToWatch = Array.isArray(resetPageWhenParamsChange)
+            ? resetPageWhenParamsChange
+            : [];
+
+        const shouldResetPage = keysToWatch.some((key) => {
+            const prevVal = prevParamsRef.current?.[key];
+            const nextVal = params?.[key];
+            try {
+                // JSON stringify to handle arrays/objects shallowly
+                const prevSer = prevVal === undefined ? "__undef__" : JSON.stringify(prevVal);
+                const nextSer = nextVal === undefined ? "__undef__" : JSON.stringify(nextVal);
+                return prevSer !== nextSer;
+            } catch (e) {
+                // Fallback to strict inequality if serialization fails
+                return prevVal !== nextVal;
+            }
+        });
+
+        if (shouldResetPage) {
+            setPagination((prevState) => ({
+                ...prevState,
+                page: 1,
+            }));
+        }
 
         fetchResources();
+        // Update previous params reference after handling
+        prevParamsRef.current = params;
     }, [params ?? {}]);
 
     useNonInitialEffect(() => {
