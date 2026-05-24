@@ -22,7 +22,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['guest:sanctum'])->group(function () {
+Route::middleware(['guest'])->group(function () {
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
     Route::post('/register', [RegisteredUserController::class, 'store']);
 
@@ -33,7 +33,7 @@ Route::middleware(['guest:sanctum'])->group(function () {
 });
 
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/user', CurrentUserController::class);
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
@@ -51,11 +51,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('vehicles', VehicleController::class)->except(['index', 'show']);
-    Route::apiResource('vehicles', VehicleController::class)->withoutMiddleware(['auth:sanctum'])->only(['index', 'show']);
+    Route::apiResource('vehicles', VehicleController::class)->withoutMiddleware(['auth'])->only(['index', 'show']);
     Route::apiResource('rentals', RentalController::class);
 
-    Route::get('colors', [ColorController::class, 'index'])->withoutMiddleware(['auth:sanctum']);
-    Route::get('brands', [BrandController::class, 'index'])->withoutMiddleware(['auth:sanctum']);
+    Route::get('colors', [ColorController::class, 'index'])->withoutMiddleware(['auth']);
+    Route::get('brands', [BrandController::class, 'index'])->withoutMiddleware(['auth']);
     Route::get('payment-methods', [PaymentMethodController::class, 'index']);
 
     Route::get("tools/search-zip-code", SearchZipCodeController::class);
