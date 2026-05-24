@@ -15,7 +15,7 @@ const mainNavItems: NavItem[] = [
     // },
     {
         title: 'Usuários',
-        url: '/usuarios',
+        url: '/clientes',
         icon: UserCircle,
     }
 ];
