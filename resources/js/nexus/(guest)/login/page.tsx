@@ -27,8 +27,8 @@ export default function Login() {
     const { refreshUser} = useAuth();
 
     const { data, setData, errors, setErrors, processing, setProcessing } = useForm({
-        email: 'test@example.com',
-        password: 'password',
+        email: import.meta.env.VITE_APP_ENV == 'local' ? 'admin@utfpr.edu.br' : '',
+        password: import.meta.env.VITE_APP_ENV == 'local' ? 'password' : '',
         remember: false,
     });
 
@@ -38,7 +38,7 @@ export default function Login() {
 
         axios.post('/api/login', data).then((response) => {
             refreshUser();
-            visit('/settings/profile');
+            visit('/clientes');
         }).catch((error) => {
             setErrors(error.response.data.errors);
         }).finally(() => {

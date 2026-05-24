@@ -1,6 +1,14 @@
 <?php
 
+use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\CurrentUserController;
+use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\MediaController;
+use App\Http\Controllers\Api\PaymentMethodController;
+use App\Http\Controllers\Api\RentalController;
+use App\Http\Controllers\Api\SearchZipCodeController;
+use App\Http\Controllers\Api\VehicleController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -28,10 +36,6 @@ Route::middleware(['guest:sanctum'])->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', CurrentUserController::class);
 
-    Route::get('/users', function(Request $request) {
-        return UserResource::collection(User::paginate(min($request->query('per_page', 15), 100)));
-    });
-
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 
     Route::patch('/settings/profile', [ProfileController::class, 'update']);
@@ -42,4 +46,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ->middleware('throttle:6,1');
         
     Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store']);
+
+    Route::get('media/{media}/display', [MediaController::class, 'display'])->name('media.display');
+
+    Route::apiResource('customers', CustomerController::class);
+    Route::apiResource('vehicles', VehicleController::class)->except(['index', 'show']);
+    Route::apiResource('vehicles', VehicleController::class)->withoutMiddleware(['auth:sanctum'])->only(['index', 'show']);
+    Route::apiResource('rentals', RentalController::class);
+
+    Route::get('colors', [ColorController::class, 'index'])->withoutMiddleware(['auth:sanctum']);
+    Route::get('brands', [BrandController::class, 'index'])->withoutMiddleware(['auth:sanctum']);
+    Route::get('payment-methods', [PaymentMethodController::class, 'index']);
+
+    Route::get("tools/search-zip-code", SearchZipCodeController::class);
 });

@@ -1,9 +1,9 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "arthurydalgo/laravext-template",
+    "name": "arthurYdalgo/laravext-template",
     "type": "project",
     "version": "1.0.0",
-    "homepage": "https://github.com/arthurydalgo/laravext-template",
+    "homepage": "https://github.com/arthurYdalgo/laravext-template",
     "description": "The skeleton application for Laravel framework with Laravext.",
     "keywords": [
         "laravel",
@@ -20,21 +20,24 @@
     "require": {
         "php": "^8.4",
         "arthurydalgo/laravext": "^1.1",
-        "laravel/framework": "^13.0",
+        "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
-        "laravel/telescope": "^5.10",
-        "laravel/tinker": "^3.0",
-        "spatie/laravel-permission": "^6.20",
+        "laravel/telescope": "5.x-dev",
+        "laravel/tinker": "^2.10.1",
+        "nativephp/mobile": "dev-main",
+        "spatie/laravel-permission": "^6.21",
+        "spatie/laravel-query-builder": "^6.3",
         "tightenco/ziggy": "^2.4"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.16",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.18",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^12"
+        "phpunit/phpunit": "^11.5.3"
     },
     "autoload": {
         "psr-4": {
@@ -69,6 +72,10 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#c4b5fd,#fb7185,#fdba74\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=queue,logs,vite"
+        ],
+        "dev-with-server": [
+            "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ]
     },
@@ -86,6 +93,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "minimum-stability": "dev",
+    "prefer-stable": false
 }

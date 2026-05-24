@@ -24,26 +24,16 @@ const mainNavItems: NavItem[] = [
     //     icon: LayoutGrid,
     // },
     {
-        title: 'Clientes',
-        url: '/clientes',
+        title: 'Usuários',
+        url: '/usuarios',
         icon: UserCircle,
-    },
-    {
-        title: 'Veículos',
-        url: '/veiculos',
-        icon: Car,
-    },
-    {
-        title: 'Reservas',
-        url: '/reservas',
-        icon: Ticket,
-    },
+    }
 ];
 
 const rightNavItems: NavItem[] = [
     {
         title: 'Repository',
-        url: 'https://github.com/ArthurYdalgo/car-rental-saet-2025',
+        url: 'https://github.com/ArthurYdalgo/laravext-template',
         icon: Folder,
     },
     {
