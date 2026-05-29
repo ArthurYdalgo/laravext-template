@@ -26,6 +26,7 @@ export default function Links({
     showGoToEndButton = false,
     hideTotal = false,
     compact = true,
+    responsive = true,
     onPaginateTo,
     perPageOptions = [5, 8, 10, 15, 25, 50, 100],
     className = '',
@@ -34,7 +35,6 @@ export default function Links({
     const [perPage, setPerPage] = useState(pagination.meta.per_page);
     const [currentPage, setCurrentPage, currentPageRef] = useState(pagination.meta.current_page);
     const [currentPageInput, setCurrentPageInput, currentPageInputRef] = useState(pagination.meta.current_page);
-    // const [pageInputTemp, setPageInputTemp, pageInputTempRef] = useState(pagination.meta.current_page);
     const pageRange = 1;
 
     const { t } = useTranslation();
@@ -42,7 +42,7 @@ export default function Links({
     const pages = useMemo(() => {
         const total = pagination.meta.last_page;
 
-                  // Build the core set: first, current, last
+        // Build the core set: first, current, last
         const pageNumbers = (compact ? [1, currentPage, total] : [1, currentPage - 1, currentPage, currentPage + 1, total])
             .filter((n, index, self) => n >= 1 && n <= total && self.indexOf(n) === index) // Remove duplicates
             .sort((a, b) => a - b);
@@ -94,16 +94,25 @@ export default function Links({
 
     useNonInitialEffect(() => {
         if (pagination.meta.current_page !== currentPage) {
-        setCurrentPage(pagination.meta.current_page);
-        setCurrentPageInput(pagination.meta.current_page);
+            setCurrentPage(pagination.meta.current_page);
+            setCurrentPageInput(pagination.meta.current_page);
         }
     }, [pagination.meta.current_page]);
 
     return (
-        <div className={'flex items-center w-full ' + className} {...props}>
-            <div className="flex items-center">
+        <div 
+            className={`flex items-center justify-between w-full min-w-0 gap-4 ${
+                responsive ? 'flex-col md:flex-row' : 'flex-row'
+            } ${className}`} 
+            {...props}
+        >
+            <div className={`flex items-center min-w-0 ${
+                responsive ? 'justify-center md:justify-start w-full md:w-auto' : 'justify-start w-auto'
+            }`}>
                 {!hideTotal && (
-                    <label htmlFor="per-page-selector" className="mr-2 whitespace-nowrap">
+                    <label htmlFor="per-page-selector" className={`text-sm text-gray-500 dark:text-zinc-400 break-words ${
+                        responsive ? 'text-center md:text-left' : 'text-left'
+                    }`}>
                         {t('pagination.showing_of_results', {
                             from: pagination.meta.from,
                             to: pagination.meta.to,
@@ -114,29 +123,37 @@ export default function Links({
             </div>
 
             {!hidePageSelector && (
-                <Pagination>
-                    <PaginationContent>
+                <Pagination className={`mx-0 min-w-0 flex ${
+                    responsive ? 'w-full md:w-auto justify-center md:justify-end' : 'w-auto justify-end'
+                }`}>
+                    <PaginationContent className={`gap-y-2 gap-x-1 ${
+                        responsive ? 'flex-wrap justify-center' : 'flex-nowrap'
+                    }`}>
+                        
                         <Select
-                            value={String(perPage)} // Ensure the value matches the selected option
+                            value={String(perPage)}
                             onValueChange={(value) => handleUpdatePerPage({ target: { value } })}
                         >
                             <SelectTrigger className="w-[80px]">
-                                <SelectValue>{perPage}</SelectValue> {/* Display the current perPage value */}
+                                <SelectValue>{perPage}</SelectValue>
                             </SelectTrigger>
                             <SelectContent className="w-[80px]">
                                 {perPageOptions.map((option) => (
-                                    <SelectItem key={option} value={String(option)} className="hover:bg-gray-100 p-1 dark:hover:bg-gray-700">
+                                    <SelectItem key={option} value={String(option)} className="hover:bg-gray-100 p-1 dark:hover:bg-gray-700 cursor-pointer">
                                         {option}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
-                        <Separator orientation="vertical" className='mx-4 py-2' />
+
+                        <Separator orientation="vertical" className={`mx-2 h-6 ${
+                            responsive ? 'hidden md:block' : 'block'
+                        }`} />
 
                         <PaginationItem>
                             <PaginationPrevious disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} />
                         </PaginationItem>
-                        {/* <ul className="flex list-none overflow-hidden rounded border border-gray-300"> */}
+                        
                         {pages.map((page, index) => (
                             <PaginationItem key={`paginator-${page}-${index}`} onClick={() => typeof page === 'number' && setCurrentPage(page)}>
                                 {typeof page === 'number' ? (
@@ -146,15 +163,22 @@ export default function Links({
                                 )}
                             </PaginationItem>
                         ))}
+                        
                         <PaginationItem>
                             <PaginationNext
                                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, pagination.meta.last_page))}
                                 disabled={currentPage === pagination.meta.last_page}
                             />
                         </PaginationItem>
-                        {!hidePageSelector && !hidePageInput && <Separator orientation="vertical" className='mx-4 py-2' />}
+
+                        {!hidePageSelector && !hidePageInput && (
+                            <Separator orientation="vertical" className={`mx-2 h-6 ${
+                                responsive ? 'hidden md:block' : 'block'
+                            }`} />
+                        )}
+                        
                         {!hidePageInput && (
-                            <>
+                            <PaginationItem>
                                 <Input
                                     id="current-page-input"
                                     type="number"
@@ -162,9 +186,9 @@ export default function Links({
                                     onChange={(e) => setCurrentPageInput(e.target.value)}
                                     max={pagination.meta.last_page}
                                     onBlur={onBlur}
-                                    className="w-16 [appearance:textfield] text-center [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-16 h-9 [appearance:textfield] text-center [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                            </>
+                            </PaginationItem>
                         )}
                     </PaginationContent>
                 </Pagination>
