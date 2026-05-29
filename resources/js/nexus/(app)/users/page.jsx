@@ -49,7 +49,8 @@ export default function Dashboard() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Users" />
-            <div className="flex w-full min-w-0 max-w-full flex-col gap-4 rounded-xl p-4 md:p-6 bg-gray-50/50 dark:bg-transparent box-border overflow-hidden">
+            {/* overflow-x-clip is an absolute safeguard against child element bleeding */}
+            <div className="flex w-full min-w-0 max-w-full flex-col gap-4 rounded-xl p-4 md:p-6 bg-gray-50/50 dark:bg-transparent box-border overflow-x-clip">
                 
                 <TableBanner
                     enableResponsiveMode={true} 
@@ -114,17 +115,18 @@ export default function Dashboard() {
                                     title={user.name}
                                     checkbox={<Checkbox />}
                                     actions={
-                                        <div className="flex items-center gap-2 md:gap-3">
-                                            <button type="button" className="p-2 -m-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                                        <div className="flex items-center gap-1 sm:gap-2">
+                                            {/* Fixed explicit w/h instead of negative margins for large touch targets! */}
+                                            <button type="button" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
                                                 <Eye size={20} />
                                             </button>
-                                            <button type="button" className="p-2 -m-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                                            <button type="button" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
                                                 <Copy size={20} />
                                             </button>
-                                            <button type="button" className="p-2 -m-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-red-500/50 text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                                            <button type="button" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-red-500/50 text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors">
                                                 <Trash size={20} />
                                             </button>
-                                            <button type="button" className="p-2 -m-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                                            <button type="button" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
                                                 <Edit size={20} />
                                             </button>
                                         </div>
