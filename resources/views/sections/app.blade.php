@@ -5,7 +5,7 @@
         id="settings"
         icon="settings"
         label="Settings"
-        url="/settings"
+        url="/settings/profile"
     />
     </native:top-bar>
 
@@ -16,7 +16,7 @@
 
         <native:side-nav-group heading="Account" :expanded="false">
             <native:side-nav-item id="profile" label="Profile" icon="person" url="/settings/profile" />
-            <native:side-nav-item id="settings" label="Settings" icon="settings" url="/settings" />
+            <native:side-nav-item id="settings" label="Settings" icon="settings" url="/settings/profile" />
         </native:side-nav-group>
 
         <native:horizontal-divider />
@@ -29,9 +29,7 @@
     @nexus
 
     <native:bottom-nav label-visibility="labeled">
-        <native:bottom-nav-item id="customers" icon="person" label="Customers" url="/users" />
-        <native:bottom-nav-item id="vehicles" icon="car.side.fill" label="Vehicless" url="/veiculos" />
-        <native:bottom-nav-item id="reservations" icon="ticket" label="Reservations" url="/reservas" />
-        <native:bottom-nav-item badge="1" id="settings" icon="settings" label="Settings" url="/settings" />
+        <native:bottom-nav-item id="users" icon="person" label="Users" url="/users" />
+        <native:bottom-nav-item badge="1" id="settings" icon="settings" label="Settings" url="/settings/profile" />
     </native:bottom-nav>
 @endsection
