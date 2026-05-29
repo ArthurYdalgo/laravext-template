@@ -21,7 +21,7 @@ export default function MobileDataCard({
                     {title && <span className="font-semibold text-gray-900 dark:text-gray-100 truncate block">{title}</span>}
                 </div>
                 {actions && (
-                    <div className="flex items-center gap-2 text-gray-400 dark:text-zinc-500 flex-shrink-0">
+                    <div className="flex items-center text-gray-400 dark:text-zinc-500 flex-shrink-0">
                         {actions}
                     </div>
                 )}
@@ -38,8 +38,8 @@ export default function MobileDataCard({
                             </span>
                             {/* Ghost Wrapper: Absorbs space safely and aligns right */}
                             <div className="flex-1 min-w-0 flex justify-end">
-                                {/* Value: Wraps long text safely without stretching UI components */}
-                                <div className="font-medium text-gray-900 dark:text-gray-100 text-right break-words max-w-full">
+                                {/* break-all prevents long strings from pushing screen width */}
+                                <div className="font-medium text-gray-900 dark:text-gray-100 text-right break-all max-w-full">
                                     {prop.value}
                                 </div>
                             </div>
@@ -64,7 +64,7 @@ export default function MobileDataCard({
                                             {prop.label}
                                         </span>
                                         <div className="flex-1 min-w-0 flex justify-end">
-                                            <div className="font-medium text-gray-900 dark:text-gray-100 text-right break-words max-w-full">
+                                            <div className="font-medium text-gray-900 dark:text-gray-100 text-right break-all max-w-full">
                                                 {prop.value}
                                             </div>
                                         </div>
