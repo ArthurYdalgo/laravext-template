@@ -49,16 +49,15 @@ export default function Dashboard() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Users" />
-            {/* Added overflow-x-hidden and w-full block to strictly prevent container spreading */}
-            <div className="flex w-full max-w-full overflow-x-hidden flex-col gap-4 rounded-xl p-4 md:p-6 bg-gray-50/50 dark:bg-transparent box-border">
+            <div className="flex w-full min-w-0 max-w-full flex-col gap-4 rounded-xl p-4 md:p-6 bg-gray-50/50 dark:bg-transparent box-border overflow-hidden">
                 
                 <TableBanner
                     enableResponsiveMode={true} 
                     filterComponents={
-                        <div className="w-full">
+                        <div className="w-full min-w-0">
                             <Filter label={'Search User'}>
                                 <Input 
-                                    className="w-full bg-white dark:bg-zinc-950 dark:border-zinc-800 dark:text-gray-100"
+                                    className="w-full min-w-0 bg-white dark:bg-zinc-950 dark:border-zinc-800 dark:text-gray-100"
                                     placeholder="Type to search..." 
                                     value={filters.search} 
                                     onChange={(e) => setFilter('search', e.target.value)} 
@@ -99,7 +98,7 @@ export default function Dashboard() {
                                             <MomentDateTime date={user.created_at} />
                                         </TableCell>
                                         <TableCell className="flex gap-2">
-                                            {/* Desktop Actions Go Here */}
+                                            {/* Desktop Actions */}
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -108,24 +107,26 @@ export default function Dashboard() {
                     }}
                     
                     responsiveTableBody={(pagination) => (
-                        <div className="flex flex-col w-full">
+                        <div className="flex flex-col w-full min-w-0">
                             {pagination.data.map((user) => (
                                 <MobileDataCard
                                     key={user.id}
                                     title={user.name}
                                     checkbox={<Checkbox />}
                                     actions={
-                                        <>
-                                            <Eye className="w-4 h-4 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400" />
-                                            <Copy className="w-4 h-4 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400" />
-                                            <Trash className="w-4 h-4 cursor-pointer hover:text-red-500 dark:hover:text-red-400" />
-                                            <Edit className="w-4 h-4 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400" />
-                                        </>
+                                        <div className="flex items-center gap-3">
+                                            <button type="button" className="p-2 -m-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                                                <Eye size={24} />
+                                            </button>
+                                            <button type="button" className="p-2 -m-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                                                <Edit size={24} />
+                                            </button>
+                                        </div>
                                     }
                                     mainProps={[
                                         { label: 'User ID', value: user.id },
                                         { label: 'Email Address', value: user.email },
-                                        { label: 'Status', value: <span className="flex items-center text-green-600 dark:text-green-400 before:content-[''] before:w-2 before:h-2 before:bg-green-500 dark:before:bg-green-400 before:rounded-full before:mr-2 border border-green-200 dark:border-green-900 px-2 py-0.5 rounded-full text-xs">Active</span> }
+                                        { label: 'Status', value: <span className="flex items-center text-green-600 dark:text-green-400 before:content-[''] before:w-2 before:h-2 before:bg-green-500 dark:before:bg-green-400 before:rounded-full before:mr-2 border border-green-200 dark:border-green-900 px-2 py-0.5 rounded-full text-xs whitespace-nowrap">Active</span> }
                                     ]}
                                     minorProps={[
                                         { label: 'Phone Number', value: user.phone?.number ?? 'N/A' },
