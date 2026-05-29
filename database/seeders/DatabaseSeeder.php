@@ -32,11 +32,5 @@ class DatabaseSeeder extends Seeder
             $user->assignRole($role);
             line("Admin user created with email '{$user->email}' and password '{$random_password}'");
         }
-
-        $this->call([ColorSeeder::class, BrandSeeder::class, PaymentMethodSeeder::class]);
-
-        if(isEnvLocal() || true){
-            $this->call([VehicleSeeder::class, CustomerSeeder::class, RentalSeeder::class]); 
-        }
     }
 }
