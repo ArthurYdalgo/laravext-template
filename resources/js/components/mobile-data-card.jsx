@@ -7,11 +7,14 @@ export default function MobileDataCard({
     mainProps = [],
     minorProps = [],
     fakeViewMore,
+    viewMoreText = "View More",
+    viewLessText = "View Less",
 }) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
         <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-sm rounded-xl mb-4 overflow-hidden text-sm flex flex-col w-full min-w-0 box-border">
+            {/* Header: Title, Checkbox, Actions */}
             <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-zinc-800/60 min-w-0">
                 <div className="flex items-center gap-3 overflow-hidden min-w-0 flex-1">
                     {checkbox && <div className="flex-shrink-0">{checkbox}</div>}
@@ -24,22 +27,41 @@ export default function MobileDataCard({
                 )}
             </div>
 
-            <div className="p-4 flex flex-col gap-3 min-w-0">
-                {mainProps.map((prop, index) => (
-                    <div key={`main-${index}`} className="flex justify-between items-start gap-4 min-w-0">
-                        <span className="text-gray-500 dark:text-zinc-400 flex-shrink-0">{prop.label}</span>
-                        <span className="font-medium text-gray-900 dark:text-gray-100 text-right min-w-0 break-words">{prop.value}</span>
-                    </div>
-                ))}
+            <div className="p-4 flex flex-col min-w-0">
+                {/* Main Properties (Always Visible) */}
+                <div className="flex flex-col gap-3 min-w-0">
+                    {mainProps.map((prop, index) => (
+                        <div key={`main-${index}`} className="flex justify-between items-start gap-4 min-w-0">
+                            <span className="text-gray-500 dark:text-zinc-400 flex-shrink-0">{prop.label}</span>
+                            <span className="font-medium text-gray-900 dark:text-gray-100 text-right min-w-0 break-words">{prop.value}</span>
+                        </div>
+                    ))}
+                </div>
 
-                {isExpanded && !fakeViewMore && minorProps.map((prop, index) => (
-                    <div key={`minor-${index}`} className="flex justify-between items-start gap-4 min-w-0">
-                        <span className="text-gray-500 dark:text-zinc-400 flex-shrink-0">{prop.label}</span>
-                        <span className="font-medium text-gray-900 dark:text-gray-100 text-right min-w-0 break-words">{prop.value}</span>
+                {/* Animated Expandable Minor Properties */}
+                {!fakeViewMore && minorProps.length > 0 && (
+                    <div 
+                        className={`grid transition-all duration-300 ease-in-out ${
+                            isExpanded 
+                                ? 'grid-rows-[1fr] opacity-100 mt-3' 
+                                : 'grid-rows-[0fr] opacity-0 mt-0'
+                        }`}
+                    >
+                        <div className="overflow-hidden">
+                            <div className="flex flex-col gap-3 min-w-0">
+                                {minorProps.map((prop, index) => (
+                                    <div key={`minor-${index}`} className="flex justify-between items-start gap-4 min-w-0">
+                                        <span className="text-gray-500 dark:text-zinc-400 flex-shrink-0">{prop.label}</span>
+                                        <span className="font-medium text-gray-900 dark:text-gray-100 text-right min-w-0 break-words">{prop.value}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                ))}
+                )}
             </div>
 
+            {/* Footer View More or Fake View More */}
             {fakeViewMore ? (
                 <div className="mt-auto min-w-0">
                     {fakeViewMore}
@@ -52,7 +74,7 @@ export default function MobileDataCard({
                             onClick={() => setIsExpanded(!isExpanded)}
                             className="w-full text-center text-blue-500 dark:text-blue-400 font-medium py-3 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors focus:outline-none"
                         >
-                            {isExpanded ? "View Less" : "View More"}
+                            {isExpanded ? viewLessText : viewMoreText}
                         </button>
                     </div>
                 )

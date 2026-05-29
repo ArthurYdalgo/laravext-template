@@ -167,14 +167,14 @@ export default function Paginated({
         <>
             <Loading condition={pagination.loading} />
             {paginated({pagination, handleSortBy})}
-            {/* <If condition={!pagination.initialLoad}>
+            <If condition={!pagination.initialLoad}>
                 <Links
                     compact={compactLinks}
                     className="mt-4"
                     onPaginateTo={paginateTo}
                     pagination={pagination}
                 />
-            </If> */}
+            </If>
         </>
     );
 };
