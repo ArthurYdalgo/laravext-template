@@ -24,7 +24,7 @@ export default function Dashboard() {
     const { filters, setFilter } = useFilter({});
 
     const [params, setParams] = useState({
-        include: 'rentalsCount,phone',
+        include: 'phone',
         filter: filters,
     });
 
@@ -52,28 +52,23 @@ export default function Dashboard() {
                 <TableBanner
                     filterComponents={
                         <>
-                            <Filter label={'Filtros'}>
-                                <Input placeholder="Buscar" value={filters.search} onChange={(e) => setFilter('search', e.target.value)} />
+                            <Filter label={'Filters'}>
+                                <Input placeholder="Search" value={filters.search} onChange={(e) => setFilter('search', e.target.value)} />
                             </Filter>
                         </>
                     }
                 ></TableBanner>
                 <Table
-                    endpoint={'/api/customers'}
+                    endpoint={'/api/users'}
                     params={params}
                     tableHead={({ sortBy, handleClick }) => (
                         <TableHeader>
                             <TableRow>
                                 <TableHead>ID</TableHead>
-                                <TableHead>Nome</TableHead>
+                                <TableHead>Name</TableHead>
                                 <TableHead>Email</TableHead>
-                                <TableHead>Telefone</TableHead>
-                                <TableHead>
-                                    <TableSortableField sortBy={sortBy} field="rentals_count" handleClick={handleClick}>
-                                        Quantidade de Reservas
-                                    </TableSortableField>
-                                </TableHead>
-                                <TableHead>Criado em</TableHead>
+                                <TableHead>Phone</TableHead>
+                                <TableHead>Created at</TableHead>
                                 <TableHead></TableHead>
                             </TableRow>
                         </TableHeader>
@@ -87,7 +82,6 @@ export default function Dashboard() {
                                         <TableCell>{user.name}</TableCell>
                                         <TableCell>{user.email}</TableCell>
                                         <TableCell>{user.phone?.number ?? '--'}</TableCell>
-                                        <TableCell>{user.rentals_count}</TableCell>
                                         <TableCell>
                                             <MomentDateTime date={user.created_at} />
                                         </TableCell>
