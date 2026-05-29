@@ -114,19 +114,25 @@ export default function Dashboard() {
                                     title={user.name}
                                     checkbox={<Checkbox />}
                                     actions={
-                                        <div className="flex items-center gap-3">
+                                        <div className="flex items-center gap-2 md:gap-3">
                                             <button type="button" className="p-2 -m-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                                                <Eye size={24} />
+                                                <Eye size={20} />
                                             </button>
                                             <button type="button" className="p-2 -m-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                                                <Edit size={24} />
+                                                <Copy size={20} />
+                                            </button>
+                                            <button type="button" className="p-2 -m-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-red-500/50 text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                                                <Trash size={20} />
+                                            </button>
+                                            <button type="button" className="p-2 -m-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                                                <Edit size={20} />
                                             </button>
                                         </div>
                                     }
                                     mainProps={[
                                         { label: 'User ID', value: user.id },
                                         { label: 'Email Address', value: user.email },
-                                        { label: 'Status', value: <span className="flex items-center text-green-600 dark:text-green-400 before:content-[''] before:w-2 before:h-2 before:bg-green-500 dark:before:bg-green-400 before:rounded-full before:mr-2 border border-green-200 dark:border-green-900 px-2 py-0.5 rounded-full text-xs whitespace-nowrap">Active</span> }
+                                        { label: 'Status', value: <span className="inline-flex w-max items-center text-green-600 dark:text-green-400 before:content-[''] before:w-2 before:h-2 before:bg-green-500 dark:before:bg-green-400 before:rounded-full before:mr-2 border border-green-200 dark:border-green-900 px-2 py-0.5 rounded-full text-xs whitespace-nowrap">Active</span> }
                                     ]}
                                     minorProps={[
                                         { label: 'Phone Number', value: user.phone?.number ?? 'N/A' },
