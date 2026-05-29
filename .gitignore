@@ -35,3 +35,5 @@ storage/framework/views/*
 storage/logs/laravel.log
 .DS_Store
 laravext_template
+native
+nativephp.lock

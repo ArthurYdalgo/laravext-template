@@ -67,6 +67,14 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             moment.locale(locale);
+
+            window.route = (name: any, params: any, absolute: boolean) =>
+                routeFn(name, params, absolute, {
+                    ...laravext.page_data.shared_props.ziggy,
+                    url: laravext.page_data.shared_props.ziggy.url,
+                });
+
+            window.Ziggy = laravext.page_data.shared_props.ziggy;
         },
 
         setup: ({ component, laravext }: any) => {
