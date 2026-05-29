@@ -34,7 +34,7 @@ export default function Register() {
         clearErrors();
 
         axios.post('/api/register', data).then(() => {
-            visit(route('clientes'));
+            visit(route('dashboard'));
         }).catch((error) => {
             setErrors(error.response.data.errors);
         });

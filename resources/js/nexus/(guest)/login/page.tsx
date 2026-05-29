@@ -38,7 +38,7 @@ export default function Login() {
 
         axios.post('/api/login', data).then((response) => {
             refreshUser();
-            visit('/clientes');
+            visit('/users');
         }).catch((error) => {
             setErrors(error.response.data.errors);
         }).finally(() => {

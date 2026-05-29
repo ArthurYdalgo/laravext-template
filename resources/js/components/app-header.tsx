@@ -24,8 +24,8 @@ const mainNavItems: NavItem[] = [
     //     icon: LayoutGrid,
     // },
     {
-        title: 'Usuários',
-        url: '/clientes',
+        title: 'Users',
+        url: '/users',
         icon: UserCircle,
     }
 ];
@@ -100,7 +100,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         </Sheet>
                     </div>
 
-                    <Link href={route('clientes')} className="flex items-center space-x-2">
+                    <Link href={route('users')} className="flex items-center space-x-2">
                         <AppLogo />
                     </Link>
 

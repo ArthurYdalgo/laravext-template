@@ -29,7 +29,7 @@
     @nexus
 
     <native:bottom-nav label-visibility="labeled">
-        <native:bottom-nav-item id="customers" icon="person" label="Customers" url="/clientes" />
+        <native:bottom-nav-item id="customers" icon="person" label="Customers" url="/users" />
         <native:bottom-nav-item id="vehicles" icon="car.side.fill" label="Vehicless" url="/veiculos" />
         <native:bottom-nav-item id="reservations" icon="ticket" label="Reservations" url="/reservas" />
         <native:bottom-nav-item badge="1" id="settings" icon="settings" label="Settings" url="/settings" />
