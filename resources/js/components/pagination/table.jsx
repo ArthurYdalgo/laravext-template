@@ -36,22 +36,25 @@ export default function Table({
                     <div className="w-full">
                         {/* Standard Table View */}
                         <div
-                            className={`overflow-hidden overflow-x-auto border ring-1 ring-black/5 sm:rounded-lg ${
-                                pagination?.data.length == 0 &&
-                                !pagination.initialLoad
+                            className={`overflow-hidden overflow-x-auto border border-gray-200 dark:border-zinc-800 ring-1 ring-black/5 dark:ring-white/5 sm:rounded-lg ${
+                                pagination?.data.length == 0 && !pagination.initialLoad
                                     ? extendTableWhenNotEmpty
                                         ? "min-h-[50vh]"
                                         : ""
                                     : extendTableWhenEmpty
                                     ? "min-h-[50vh]"
                                     : ""
-                            } ${hideTableHeadOnMobile && hideTableBodyOnMobile ? "max-md:hidden" : ""}`}
+                            } ${
+                                hideTableHeadOnMobile && hideTableBodyOnMobile 
+                                    ? "hidden md:block" // Completely hides standard table container on mobile to prevent horizontal scroll
+                                    : "block"
+                            }`}
                         >
                             <TableComponent
-                                className={`min-w-full divide-y divide-gray-300 ${
+                                className={`min-w-full divide-y divide-gray-300 dark:divide-zinc-800 ${
                                     pagination.loading ? "opacity-50" : ""
-                                } ${hideTableHeadOnMobile ? "max-md:[&_thead]:hidden" : ""} ${
-                                    hideTableBodyOnMobile ? "max-md:[&_tbody]:hidden" : ""
+                                } ${hideTableHeadOnMobile ? "[&_thead]:hidden md:[&_thead]:table-header-group" : ""} ${
+                                    hideTableBodyOnMobile ? "[&_tbody]:hidden md:[&_tbody]:table-row-group" : ""
                                 } ${tableClassName}`}
                             >
                                 {tableHead({
@@ -66,7 +69,7 @@ export default function Table({
 
                         {/* Mobile Responsive Body Rendered Outside Table Component */}
                         {responsiveTableBody && (
-                            <div className="block md:hidden mt-4">
+                            <div className="block md:hidden mt-4 w-full">
                                 {responsiveTableBody(pagination)}
                             </div>
                         )}
