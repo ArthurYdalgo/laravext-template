@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ (request()->cookie('appearance') ?? $_COOKIE['appearance'] ?? 'dark') === 'dark' ? 'dark' : ''}}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ (request()->cookie('appearance') ?? $_COOKIE['appearance'] ?? 'light') === 'dark' ? 'dark' : ''}}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover,height=device-height">
         
         <title>{{ @$head['title'] ?? config('app.name', 'Laravel') }}</title>
 
@@ -11,9 +11,8 @@
         
         @vite(['resources/css/app.css'])
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased nativephp-safe-area">
         @yield('content')
-        @routes
         @laravextScripts
         @viteReactRefresh
         @vite(['resources/js/app.tsx'])
