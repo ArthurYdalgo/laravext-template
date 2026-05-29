@@ -15,8 +15,8 @@ import { useState } from 'react';
 
 const breadcrumbs = [
     {
-        title: 'Clientes',
-        href: '/clientes',
+        title: 'Users',
+        href: '/users',
     },
 ];
 
@@ -46,13 +46,8 @@ export default function Dashboard() {
     return (
         <AppLayout
             breadcrumbs={breadcrumbs}
-            actions={
-                <Button size="xs" asChild>
-                    <Link href={route('clientes.cadastrar')}>Cadastrar</Link>
-                </Button>
-            }
         >
-            <Head title="Clientes" />
+            <Head title="Users" />
             <div className="flex h-full flex-col gap-4 rounded-xl p-4">
                 <TableBanner
                     filterComponents={
@@ -86,23 +81,20 @@ export default function Dashboard() {
                     tableBody={(pagination) => {
                         return (
                             <TableBody>
-                                {pagination.data.map((customer) => (
-                                    <TableRow key={customer.id}>
-                                        <TableCell>{customer.id}</TableCell>
-                                        <TableCell>{customer.name}</TableCell>
-                                        <TableCell>{customer.email}</TableCell>
-                                        <TableCell>{customer.phone?.number ?? '--'}</TableCell>
-                                        <TableCell>{customer.rentals_count}</TableCell>
+                                {pagination.data.map((user) => (
+                                    <TableRow key={user.id}>
+                                        <TableCell>{user.id}</TableCell>
+                                        <TableCell>{user.name}</TableCell>
+                                        <TableCell>{user.email}</TableCell>
+                                        <TableCell>{user.phone?.number ?? '--'}</TableCell>
+                                        <TableCell>{user.rentals_count}</TableCell>
                                         <TableCell>
-                                            <MomentDateTime date={customer.created_at} />
+                                            <MomentDateTime date={user.created_at} />
                                         </TableCell>
                                         <TableCell className="flex gap-2">
-                                            <Button asChild variant="default" size="xs">
-                                                <Link href={route('clientes.customer', { customer: customer.id })}>Ver</Link>
-                                            </Button>
-                                            <Button asChild variant="secondary" size="xs">
-                                                <Link href={route('clientes.customer.editar', { customer: customer.id })}>Editar</Link>
-                                            </Button>
+                                            {/* <Button asChild variant="default" size="xs">
+                                                <Link href={route('users.user', { user: user.id })}>Ver</Link>
+                                            </Button> */}
                                         </TableCell>
                                     </TableRow>
                                 ))}
