@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\PaymentMethodController;
 use App\Http\Controllers\Api\RentalController;
 use App\Http\Controllers\Api\SearchZipCodeController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VehicleController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -46,6 +47,8 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('throttle:6,1');
         
     Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store']);
+
+    Route::apiResource('users', UserController::class)->only('index');
 
     // Route::get("tools/search-zip-code", SearchZipCodeController::class);
 });
