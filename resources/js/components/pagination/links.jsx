@@ -126,36 +126,44 @@ export default function Links({
                 <Pagination className={`mx-0 min-w-0 flex ${
                     responsive ? 'w-full md:w-auto justify-center md:justify-end' : 'w-auto justify-end'
                 }`}>
-                    <PaginationContent className={`gap-y-2 gap-x-1 ${
+                    <PaginationContent className={`gap-y-3 gap-x-1 ${
                         responsive ? 'flex-wrap justify-center' : 'flex-nowrap'
                     }`}>
                         
-                        <Select
-                            value={String(perPage)}
-                            onValueChange={(value) => handleUpdatePerPage({ target: { value } })}
-                        >
-                            <SelectTrigger className="w-[80px]">
-                                <SelectValue>{perPage}</SelectValue>
-                            </SelectTrigger>
-                            <SelectContent className="w-[80px]">
-                                {perPageOptions.map((option) => (
-                                    <SelectItem key={option} value={String(option)} className="hover:bg-gray-100 p-1 dark:hover:bg-gray-700 cursor-pointer">
-                                        {option}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                        {/* 1. PER PAGE SELECTOR (Moved to Row 2 on mobile via order-2) */}
+                        {!hidePerPageSelector && (
+                            <PaginationItem className={`${responsive ? 'order-2 md:order-none mt-2 md:mt-0 mr-2 md:mr-0' : ''}`}>
+                                <Select
+                                    value={String(perPage)}
+                                    onValueChange={(value) => handleUpdatePerPage({ target: { value } })}
+                                >
+                                    <SelectTrigger className="w-[80px]">
+                                        <SelectValue>{perPage}</SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent className="w-[80px]">
+                                        {perPageOptions.map((option) => (
+                                            <SelectItem key={option} value={String(option)} className="hover:bg-gray-100 p-1 dark:hover:bg-gray-700 cursor-pointer">
+                                                {option}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </PaginationItem>
+                        )}
 
-                        <Separator orientation="vertical" className={`mx-2 h-6 ${
-                            responsive ? 'hidden md:block' : 'block'
-                        }`} />
+                        {!hidePerPageSelector && !hidePageSelector && (
+                            <Separator orientation="vertical" className={`mx-2 h-6 ${
+                                responsive ? 'hidden md:block md:order-none' : 'block'
+                            }`} />
+                        )}
 
-                        <PaginationItem>
+                        {/* 2. PAGE NUMBERS (Kept on Row 1 on mobile via order-1) */}
+                        <PaginationItem className={`${responsive ? 'order-1 md:order-none' : ''}`}>
                             <PaginationPrevious disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} />
                         </PaginationItem>
                         
                         {pages.map((page, index) => (
-                            <PaginationItem key={`paginator-${page}-${index}`} onClick={() => typeof page === 'number' && setCurrentPage(page)}>
+                            <PaginationItem key={`paginator-${page}-${index}`} className={`${responsive ? 'order-1 md:order-none' : ''}`} onClick={() => typeof page === 'number' && setCurrentPage(page)}>
                                 {typeof page === 'number' ? (
                                     <PaginationLink isActive={page == currentPage}>{page}</PaginationLink>
                                 ) : (
@@ -164,21 +172,27 @@ export default function Links({
                             </PaginationItem>
                         ))}
                         
-                        <PaginationItem>
+                        <PaginationItem className={`${responsive ? 'order-1 md:order-none' : ''}`}>
                             <PaginationNext
                                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, pagination.meta.last_page))}
                                 disabled={currentPage === pagination.meta.last_page}
                             />
                         </PaginationItem>
 
+                        {/* 3. ROW BREAK ELEMENT: This invisible element forces everything with order-2 beneath the page numbers */}
+                        {responsive && (
+                            <li className="basis-full h-0 block md:hidden order-1" aria-hidden="true"></li>
+                        )}
+
                         {!hidePageSelector && !hidePageInput && (
                             <Separator orientation="vertical" className={`mx-2 h-6 ${
-                                responsive ? 'hidden md:block' : 'block'
+                                responsive ? 'hidden md:block md:order-none' : 'block'
                             }`} />
                         )}
                         
+                        {/* 4. GO TO PAGE INPUT (Moved to Row 2 on mobile via order-2) */}
                         {!hidePageInput && (
-                            <PaginationItem>
+                            <PaginationItem className={`${responsive ? 'order-2 md:order-none mt-2 md:mt-0 ml-2 md:ml-0' : ''}`}>
                                 <Input
                                     id="current-page-input"
                                     type="number"
