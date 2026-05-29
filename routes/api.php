@@ -47,16 +47,5 @@ Route::middleware(['auth'])->group(function () {
         
     Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    Route::get('media/{media}/display', [MediaController::class, 'display'])->name('media.display');
-
-    Route::apiResource('customers', CustomerController::class);
-    Route::apiResource('vehicles', VehicleController::class)->except(['index', 'show']);
-    Route::apiResource('vehicles', VehicleController::class)->withoutMiddleware(['auth'])->only(['index', 'show']);
-    Route::apiResource('rentals', RentalController::class);
-
-    Route::get('colors', [ColorController::class, 'index'])->withoutMiddleware(['auth']);
-    Route::get('brands', [BrandController::class, 'index'])->withoutMiddleware(['auth']);
-    Route::get('payment-methods', [PaymentMethodController::class, 'index']);
-
-    Route::get("tools/search-zip-code", SearchZipCodeController::class);
+    // Route::get("tools/search-zip-code", SearchZipCodeController::class);
 });

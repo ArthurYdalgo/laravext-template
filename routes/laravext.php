@@ -28,21 +28,6 @@ Route::middleware(['auth'])->group(function () {
     Route::nexus('confirm-password')->name('password.confirm');
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
-
-    Route::laravext('clientes');
-    Route::get("clientes/{customer}/editar", [CustomerController::class, 'edit'])->name('clientes.customer.editar');
-    Route::get("clientes/{customer}", [CustomerController::class, 'show'])->name('clientes.customer');
-
-    Route::laravext('veiculos');
-    Route::get("veiculos", [VehicleController::class, 'index'])->name('veiculos');
-    Route::get("veiculos/cadastrar", [VehicleController::class, 'create'])->name('veiculos.cadastrar');
-    Route::get("veiculos/{vehicle}/editar", [VehicleController::class, 'edit'])->name('veiculos.vehicle.editar');
-    Route::get("veiculos/{vehicle}", [VehicleController::class, 'show'])->name('veiculos.vehicle');
-
-    Route::laravext('reservas');
-    Route::get("reservas/cadastrar", [RentalController::class, 'create'])->name('reservas.cadastrar');
-    Route::get("reservas/{rental}/editar", [RentalController::class, 'edit'])->name('reservas.rental.editar');
-    Route::get("reservas/{rental}", [RentalController::class, 'show'])->name('reservas.rental');
 });
 
 Route::middleware(['guest'])->group(function () {
