@@ -13,12 +13,12 @@ export default function MobileDataCard({
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
-        <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-sm rounded-xl mb-4 overflow-hidden text-sm flex flex-col w-full min-w-0 box-border">
+        <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-sm rounded-xl mb-4 overflow-hidden text-sm flex flex-col w-full min-w-0 max-w-full box-border relative">
             {/* Header: Title, Checkbox, Actions */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-zinc-800/60 w-full min-w-0 gap-4">
-                <div className="flex items-center gap-3 overflow-hidden min-w-0 flex-1">
+            <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-100 dark:border-zinc-800/60 w-full min-w-0 gap-2 sm:gap-4 overflow-hidden">
+                <div className="flex items-center gap-2 sm:gap-3 overflow-hidden min-w-0 flex-1">
                     {checkbox && <div className="flex-shrink-0">{checkbox}</div>}
-                    {title && <span className="font-semibold text-gray-900 dark:text-gray-100 truncate block">{title}</span>}
+                    {title && <span className="font-semibold text-gray-900 dark:text-gray-100 truncate block w-full min-w-0">{title}</span>}
                 </div>
                 {actions && (
                     <div className="flex items-center text-gray-400 dark:text-zinc-500 flex-shrink-0">
@@ -27,17 +27,17 @@ export default function MobileDataCard({
                 )}
             </div>
 
-            <div className="p-4 flex flex-col w-full min-w-0">
+            <div className="p-3 sm:p-4 flex flex-col w-full min-w-0 overflow-hidden">
                 {/* Main Properties (Always Visible) */}
                 <div className="flex flex-col gap-3 w-full min-w-0">
                     {mainProps.map((prop, index) => (
-                        <div key={`main-${index}`} className="flex justify-between items-start gap-4 w-full min-w-0">
+                        <div key={`main-${index}`} className="flex justify-between items-start gap-3 sm:gap-4 w-full min-w-0">
                             {/* Label: Never shrinks, sits at the top */}
                             <span className="text-gray-500 dark:text-zinc-400 flex-shrink-0 mt-0.5">
                                 {prop.label}
                             </span>
                             {/* Ghost Wrapper: Absorbs space safely and aligns right */}
-                            <div className="flex-1 min-w-0 flex justify-end">
+                            <div className="flex-1 min-w-0 flex justify-end overflow-hidden">
                                 {/* break-all prevents long strings from pushing screen width */}
                                 <div className="font-medium text-gray-900 dark:text-gray-100 text-right break-all max-w-full">
                                     {prop.value}
@@ -59,11 +59,11 @@ export default function MobileDataCard({
                         <div className="overflow-hidden w-full">
                             <div className="flex flex-col gap-3 w-full min-w-0 pt-1">
                                 {minorProps.map((prop, index) => (
-                                    <div key={`minor-${index}`} className="flex justify-between items-start gap-4 w-full min-w-0">
+                                    <div key={`minor-${index}`} className="flex justify-between items-start gap-3 sm:gap-4 w-full min-w-0">
                                         <span className="text-gray-500 dark:text-zinc-400 flex-shrink-0 mt-0.5">
                                             {prop.label}
                                         </span>
-                                        <div className="flex-1 min-w-0 flex justify-end">
+                                        <div className="flex-1 min-w-0 flex justify-end overflow-hidden">
                                             <div className="font-medium text-gray-900 dark:text-gray-100 text-right break-all max-w-full">
                                                 {prop.value}
                                             </div>
@@ -78,7 +78,7 @@ export default function MobileDataCard({
 
             {/* Footer View More or Fake View More */}
             {fakeViewMore ? (
-                <div className="mt-auto w-full min-w-0">
+                <div className="mt-auto w-full min-w-0 overflow-hidden">
                     {fakeViewMore}
                 </div>
             ) : (
