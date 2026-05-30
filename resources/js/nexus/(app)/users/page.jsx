@@ -112,6 +112,7 @@ export default function Dashboard() {
                             {pagination.data.map((user) => (
                                 <MobileDataCard
                                     key={user.id}
+                                    titleTruncatePosition="middle"
                                     title={user.name}
                                     checkbox={<Checkbox />}
                                     actions={

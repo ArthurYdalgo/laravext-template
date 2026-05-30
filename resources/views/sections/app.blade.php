@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <native:top-bar title="Dashboard" subtitle="Welcome back">
+    <native:top-bar :title="$head['title']" subtitle="Welcome back">
          <native:top-bar-action
         id="settings"
         icon="settings"
