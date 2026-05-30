@@ -1,8 +1,38 @@
 import React, { useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
+// 1. We create a controlled wrapper to override Radix's default mobile behavior.
+// This forces the tooltip to toggle open/closed instantly on tap.
+const TapTooltip = ({ content, children }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <Tooltip open={isOpen} onOpenChange={setIsOpen} delayDuration={150}>
+            <TooltipTrigger asChild>
+                {/* We clone the child element to inject an explicit onClick toggle */}
+                {React.cloneElement(children, {
+                    onClick: (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setIsOpen((prev) => !prev);
+                    }
+                })}
+            </TooltipTrigger>
+            <TooltipContent 
+                side="top" 
+                // Ensure z-50 so it pops above other cards on mobile
+                className="max-w-[85vw] break-all sm:break-words text-center z-50 shadow-md"
+                onInteractOutside={() => setIsOpen(false)}
+            >
+                {content}
+            </TooltipContent>
+        </Tooltip>
+    );
+};
+
 export default function MobileDataCard({
     title,
+    titleTruncatePosition = "end",
     checkbox,
     actions,
     mainProps = [],
@@ -13,90 +43,114 @@ export default function MobileDataCard({
 }) {
     const [isExpanded, setIsExpanded] = useState(false);
 
+    const renderTitleText = () => {
+        if (titleTruncatePosition === "middle" && typeof title === "string" && title.length > 12) {
+            const start = title.slice(0, -6);
+            const end = title.slice(-6);
+            return (
+                <div className="flex items-center w-full min-w-0 font-semibold text-gray-900 dark:text-gray-100 text-left overflow-hidden">
+                    <span className="truncate min-w-0">{start}</span>
+                    <span className="shrink-0 whitespace-nowrap">{end}</span>
+                </div>
+            );
+        }
+
+        return (
+            <span className="font-semibold text-gray-900 dark:text-gray-100 block w-full truncate whitespace-nowrap text-left">
+                {title}
+            </span>
+        );
+    };
+
     const renderValue = (value) => {
         if (value === null || value === undefined) return null;
 
         if (typeof value === "string" || typeof value === "number") {
             const text = String(value);
             return (
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <span className="block max-w-full truncate text-right">
-                            {text}
-                        </span>
-                    </TooltipTrigger>
-                    <TooltipContent side="top">{text}</TooltipContent>
-                </Tooltip>
+                // 2. Wrap the value in our new TapTooltip
+                <TapTooltip content={text}>
+                    <button type="button" className="block w-full truncate text-right whitespace-nowrap focus:outline-none cursor-pointer">
+                        {text}
+                    </button>
+                </TapTooltip>
             );
         }
 
-        return <div className="max-w-full overflow-hidden">{value}</div>;
+        return <div className="w-full overflow-hidden text-right">{value}</div>;
     };
 
     return (
         <TooltipProvider>
-            <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-sm rounded-xl mb-4 overflow-hidden overflow-x-hidden text-sm flex flex-col w-full min-w-0 max-w-full box-border relative">
-                {/* Header: Title, Checkbox, Actions */}
-                <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-100 dark:border-zinc-800/60 w-full min-w-0 gap-2 sm:gap-4 overflow-hidden overflow-x-hidden">
-                    <div className="flex items-center gap-2 sm:gap-3 overflow-hidden min-w-0 flex-1">
-                        {checkbox && <div className="flex-shrink-0">{checkbox}</div>}
-                        {title && (
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <span className="font-semibold text-gray-900 dark:text-gray-100 truncate block w-full min-w-0">
-                                        {title}
-                                    </span>
-                                </TooltipTrigger>
-                                <TooltipContent side="top">{title}</TooltipContent>
-                            </Tooltip>
-                        )}
-                    </div>
-                    {actions && (
-                        <div className="flex items-center text-gray-400 dark:text-zinc-500 flex-shrink-0">
+            <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-sm rounded-xl mb-4 overflow-hidden text-sm flex flex-col w-full max-w-full box-border relative">
+                
+                {/* Header Grid */}
+                <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center p-3 sm:p-4 border-b border-gray-100 dark:border-zinc-800/60 w-full gap-2 sm:gap-3 overflow-hidden">
+                    
+                    {/* 1. Checkbox */}
+                    {checkbox ? (
+                        <div className="flex items-center justify-center pr-1">{checkbox}</div>
+                    ) : (
+                        <div />
+                    )}
+
+                    {/* 2. Title */}
+                    {title ? (
+                        <div className="w-full min-w-0 overflow-hidden">
+                            {/* 3. Wrap the title in our new TapTooltip */}
+                            <TapTooltip content={title}>
+                                <button type="button" className="block w-full min-w-0 focus:outline-none cursor-pointer text-left">
+                                    {renderTitleText()}
+                                </button>
+                            </TapTooltip>
+                        </div>
+                    ) : (
+                        <div />
+                    )}
+
+                    {/* 3. Actions */}
+                    {actions ? (
+                        <div className="flex items-center text-gray-400 dark:text-zinc-500">
                             {actions}
                         </div>
+                    ) : (
+                        <div />
                     )}
                 </div>
 
-                <div className="p-3 sm:p-4 flex flex-col w-full min-w-0 overflow-hidden overflow-x-hidden">
-                    {/* Main Properties (Always Visible) */}
-                    <div className="flex flex-col gap-3 w-full min-w-0">
+                <div className="p-3 sm:p-4 flex flex-col w-full overflow-hidden">
+                    {/* Main Properties */}
+                    <div className="flex flex-col gap-3 w-full">
                         {mainProps.map((prop, index) => (
-                            <div key={`main-${index}`} className="flex justify-between items-start gap-3 sm:gap-4 w-full min-w-0 overflow-hidden">
-                                {/* Label: Never shrinks, sits at the top */}
-                                <span className="text-gray-500 dark:text-zinc-400 flex-shrink-0 mt-0.5 max-w-[45%] truncate">
+                            <div key={`main-${index}`} className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-3 sm:gap-4 w-full overflow-hidden">
+                                <span className="text-gray-500 dark:text-zinc-400 mt-0.5 whitespace-nowrap pr-2">
                                     {prop.label}
                                 </span>
-                                {/* Ghost Wrapper: Absorbs space safely and aligns right */}
-                                <div className="flex-1 min-w-0 flex justify-end overflow-hidden">
-                                    <div className="font-medium text-gray-900 dark:text-gray-100 max-w-full overflow-hidden">
-                                        {renderValue(prop.value)}
-                                    </div>
+                                <div className="w-full min-w-0 font-medium text-gray-900 dark:text-gray-100 overflow-hidden">
+                                    {renderValue(prop.value)}
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    {/* Animated Expandable Minor Properties */}
+                    {/* Expandable Minor Properties */}
                     {!fakeViewMore && minorProps.length > 0 && (
                         <div
-                            className={`grid transition-all duration-300 ease-in-out w-full ${
+                            className={`grid transition-all duration-300 ease-in-out w-full overflow-hidden ${
                                 isExpanded
                                     ? "grid-rows-[1fr] opacity-100 mt-3"
                                     : "grid-rows-[0fr] opacity-0 mt-0"
                             }`}
                         >
                             <div className="overflow-hidden w-full">
-                                <div className="flex flex-col gap-3 w-full min-w-0 pt-1">
+                                <div className="flex flex-col gap-3 w-full pt-1">
                                     {minorProps.map((prop, index) => (
-                                        <div key={`minor-${index}`} className="flex justify-between items-start gap-3 sm:gap-4 w-full min-w-0 overflow-hidden">
-                                            <span className="text-gray-500 dark:text-zinc-400 flex-shrink-0 mt-0.5 max-w-[45%] truncate">
+                                        <div key={`minor-${index}`} className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-3 sm:gap-4 w-full overflow-hidden">
+                                            <span className="text-gray-500 dark:text-zinc-400 mt-0.5 whitespace-nowrap pr-2">
                                                 {prop.label}
                                             </span>
-                                            <div className="flex-1 min-w-0 flex justify-end overflow-hidden">
-                                                <div className="font-medium text-gray-900 dark:text-gray-100 max-w-full overflow-hidden">
-                                                    {renderValue(prop.value)}
-                                                </div>
+                                            <div className="w-full min-w-0 font-medium text-gray-900 dark:text-gray-100 overflow-hidden">
+                                                {renderValue(prop.value)}
                                             </div>
                                         </div>
                                     ))}
@@ -106,14 +160,14 @@ export default function MobileDataCard({
                     )}
                 </div>
 
-                {/* Footer View More or Fake View More */}
+                {/* Footer */}
                 {fakeViewMore ? (
-                    <div className="mt-auto w-full min-w-0 overflow-hidden">
+                    <div className="mt-auto w-full overflow-hidden">
                         {fakeViewMore}
                     </div>
                 ) : (
                     minorProps.length > 0 && (
-                        <div className="border-t border-gray-100 dark:border-zinc-800/60 w-full min-w-0 overflow-hidden">
+                        <div className="border-t border-gray-100 dark:border-zinc-800/60 w-full overflow-hidden">
                             <button
                                 type="button"
                                 onClick={() => setIsExpanded(!isExpanded)}

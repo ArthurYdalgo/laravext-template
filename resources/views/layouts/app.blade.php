@@ -11,7 +11,7 @@
         
         @vite(['resources/css/app.css'])
     </head>
-    <body class="font-sans antialiased nativephp-safe-area">
+    <body class="font-sans antialiased nativephp-safe-area mt-12 mb-20">
         @yield('content')
         @laravextScripts
         @viteReactRefresh

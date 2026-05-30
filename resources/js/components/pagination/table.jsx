@@ -33,7 +33,7 @@ export default function Table({
                 <div className="w-full min-w-0 max-w-full">
                     {/* Standard Table View */}
                     <div
-                        className={`overflow-hidden overflow-x-auto border border-gray-200 dark:border-zinc-800 ring-1 ring-black/5 dark:ring-white/5 sm:rounded-lg ${
+                        className={`overflow-hidden overflow-x-hidden border border-gray-200 dark:border-zinc-800 ring-1 ring-black/5 dark:ring-white/5 sm:rounded-lg ${
                             pagination?.data.length == 0 && !pagination.initialLoad
                                 ? extendTableWhenNotEmpty
                                     ? "min-h-[50vh]"
