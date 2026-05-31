@@ -107,7 +107,7 @@ export default function Dashboard() {
                                                     Open
                                                 </Link>
                                             </Button>
-                                            <Button variant='secondary' size="xs">
+                                            {/* <Button variant='secondary' size="xs">
                                                 <Link href={route('users.user.edit', { user: user.id })}>
                                                     Edit
                                                 </Link>
@@ -119,7 +119,7 @@ export default function Dashboard() {
                                                 includeChildrenWhenLoading={false}
                                             >
                                                 Delete
-                                            </LoadingButton>
+                                            </LoadingButton> */}
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -143,14 +143,14 @@ export default function Dashboard() {
                                                     <Eye size={20} />
                                                 </Link>
                                             </Button>
-                                            <Button variant='secondary'>
+                                            {/* <Button variant='secondary'>
                                                 <Link href={route('users.user.edit', { user: user.id })}>
                                                     <Edit size={24} />
                                                 </Link>
                                             </Button>
                                             <Button variant='destructive' includeChildrenWhenLoading={false}>
                                                 <Trash size={20} />
-                                            </Button>
+                                            </Button> */}
                                         </div>
                                     }
                                     mainProps={[
