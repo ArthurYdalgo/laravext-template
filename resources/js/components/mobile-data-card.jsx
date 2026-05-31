@@ -40,8 +40,32 @@ export default function MobileDataCard({
     fakeViewMore,
     viewMoreText = "View More",
     viewLessText = "View Less",
+    onViewMore,
+    onViewLess,
 }) {
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const handleToggleExpand = () => {
+        if (isExpanded) {
+            // Currently expanded, user clicked "View Less"
+            const collapse = () => setIsExpanded(false);
+            
+            if (onViewLess) {
+                onViewLess(collapse);
+            } else {
+                collapse();
+            }
+        } else {
+            // Currently collapsed, user clicked "View More"
+            const expand = () => setIsExpanded(true);
+            
+            if (onViewMore) {
+                onViewMore(expand);
+            } else {
+                expand();
+            }
+        }
+    };
 
     const renderTitleText = () => {
         if (titleTruncatePosition === "middle" && typeof title === "string" && title.length > 12) {
@@ -68,7 +92,6 @@ export default function MobileDataCard({
         if (typeof value === "string" || typeof value === "number") {
             const text = String(value);
             return (
-                // 2. Wrap the value in our new TapTooltip
                 <TapTooltip content={text}>
                     <button type="button" className="block w-full truncate text-right whitespace-nowrap focus:outline-none cursor-pointer">
                         {text}
@@ -87,17 +110,14 @@ export default function MobileDataCard({
                 {/* Header Grid */}
                 <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center p-3 sm:p-4 border-b border-gray-100 dark:border-zinc-800/60 w-full gap-2 sm:gap-3 overflow-hidden">
                     
-                    {/* 1. Checkbox */}
                     {checkbox ? (
                         <div className="flex items-center justify-center pr-1">{checkbox}</div>
                     ) : (
                         <div />
                     )}
 
-                    {/* 2. Title */}
                     {title ? (
                         <div className="w-full min-w-0 overflow-hidden">
-                            {/* 3. Wrap the title in our new TapTooltip */}
                             <TapTooltip content={title}>
                                 <button type="button" className="block w-full min-w-0 focus:outline-none cursor-pointer text-left">
                                     {renderTitleText()}
@@ -108,7 +128,6 @@ export default function MobileDataCard({
                         <div />
                     )}
 
-                    {/* 3. Actions */}
                     {actions ? (
                         <div className="flex items-center text-gray-400 dark:text-zinc-500">
                             {actions}
@@ -166,11 +185,11 @@ export default function MobileDataCard({
                         {fakeViewMore}
                     </div>
                 ) : (
-                    minorProps.length > 0 && (
+                    (minorProps.length > 0 || onViewMore || onViewLess) && (
                         <div className="border-t border-gray-100 dark:border-zinc-800/60 w-full overflow-hidden">
                             <button
                                 type="button"
-                                onClick={() => setIsExpanded(!isExpanded)}
+                                onClick={handleToggleExpand}
                                 className="w-full text-center text-blue-500 dark:text-blue-400 font-medium py-3 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors focus:outline-none"
                             >
                                 {isExpanded ? viewLessText : viewMoreText}

@@ -11,7 +11,7 @@ import { TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/compon
 import { useFilter } from '@/hooks/use-filter';
 import { useNonInitialEffect } from '@/hooks/use-non-initial-effect';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@laravext/react';
+import { Head, Link, visit } from '@laravext/react';
 import { useState } from 'react';
 import { Eye, Copy, Trash, Edit } from 'lucide-react'; 
 import { LoadingButton } from '@/components/ui/loading-button';
