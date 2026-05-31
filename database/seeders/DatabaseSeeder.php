@@ -19,9 +19,9 @@ class DatabaseSeeder extends Seeder
         $random_password = isEnvLocal() ? 'password' : str()->random(12);
 
         $user = User::updateOrCreate([
-            'email' => 'admin@utfpr.edu.br',
+            'email' => 'test@email.com',
         ], [
-            'name' => 'Admin',
+            'name' => 'User',
             'email_verified_at' => now(),
             'password' => Hash::make($random_password),
         ]);

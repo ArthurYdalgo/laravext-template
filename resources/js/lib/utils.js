@@ -108,3 +108,23 @@ export const formatZipCode = (zipCode) => {
         return zipCode; // Return as is if not 8 digits
     }
 };
+
+export const env = (key) => {
+    return import.meta.env[key];
+}
+
+export const appEnv = (key) => {
+    return env('VITE_APP_ENV') ?? 'production';
+}
+
+export const viteEnv = (key, prefix = 'VITE_') => {
+    return env(`${prefix}${key}`);
+}
+
+export const isEnvLocal = () => {
+    return appEnv() === 'local';
+}
+
+export const isEnvProduction = () => {
+    return appEnv() === 'production';
+}

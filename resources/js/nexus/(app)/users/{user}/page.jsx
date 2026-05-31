@@ -13,7 +13,7 @@ export default () => {
             breadcrumbs={[
                 {
                     title: 'Users',
-                    href: route('users'),
+                    href: '/users',
                 },
                 {
                     title: `#${user.id} ${user.first_name}`,
