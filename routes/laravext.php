@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,10 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::laravext("dashboard");
     Route::laravext('settings');
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('settings.profile');
-    Route::get('users', function(){
-
-    return nexus()->withHead('title', 'Users')->render();
-    });
+    Route::get('users', [UserController::class, 'index']);
 
     Route::nexus('confirm-password')->name('password.confirm');
     Route::get('verify-email', EmailVerificationPromptController::class)

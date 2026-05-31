@@ -4,7 +4,13 @@ import { nexusProps } from '@laravext/react';
 
 
 export default function VehicleTypePicker({ value, onChange, placeholder = 'Selecione o tipo', disabled, id, name }) {
-    const vehicleTypes = nexusProps().vehicle_types || [];
+    const vehicleTypes = [{
+        value: 'car',
+        name: 'Carro',
+    }, {
+        value: 'motorcycle',
+        name: 'Moto',
+    }];
 
     return (
         <Select value={value} onValueChange={onChange} disabled={disabled} name={name}>

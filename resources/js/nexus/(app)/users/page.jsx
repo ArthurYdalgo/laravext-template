@@ -1,4 +1,3 @@
-import ColorPicker from '@/components/color-picker';
 import Filter from '@/components/filter';
 import MomentDateTime from '@/components/moment-date-time';
 import Table from '@/components/pagination/table';
@@ -15,6 +14,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@laravext/react';
 import { useState } from 'react';
 import { Eye, Copy, Trash, Edit } from 'lucide-react'; 
+import VehicleTypePicker from '@/components/vehicle-type-picker';
 
 const breadcrumbs = [
     {
@@ -62,6 +62,15 @@ export default function Dashboard() {
                                     placeholder="Type to search..." 
                                     value={filters.search} 
                                     onChange={(e) => setFilter('search', e.target.value)} 
+                                />
+                            </Filter>
+                            <Filter label={'Search User'}>
+                                <VehicleTypePicker
+                                    id="type"
+                                    name="type"
+                                    required
+                                    value={filters.type ?? ''}
+                                    onChange={(value) => setFilter('type', value)}
                                 />
                             </Filter>
                         </div>

@@ -12,6 +12,7 @@ import {
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import { toast } from "sonner"
+import { isEnvLocal } from "@/lib/utils";
 
 // Context
 const DialogContext = createContext();
@@ -144,7 +145,7 @@ export const DialogProvider = ({ children }) => {
                                 onPaste={(e) => {
                                     toast.error("Não... não pode. Tem que digitar mesmo 😊");
 
-                                    if (import.meta.env.VITE_APP_ENV == "local") {
+                                    if (isEnvLocal()) {
                                         return;
                                     }
 

@@ -13,6 +13,7 @@ import axios from 'axios';
 import { useForm } from '@/hooks/use-form';
 import { useTranslation } from 'react-i18next';
 import useAuth from '@/hooks/use-auth';
+import { isEnvLocal } from '@/lib/utils';
 
 interface LoginForm {
     email: string;
@@ -27,8 +28,8 @@ export default function Login() {
     const { refreshUser} = useAuth();
 
     const { data, setData, errors, setErrors, processing, setProcessing } = useForm({
-        email: import.meta.env.VITE_APP_ENV == 'local' ? 'admin@utfpr.edu.br' : '',
-        password: import.meta.env.VITE_APP_ENV == 'local' ? 'password' : '',
+        email: isEnvLocal() ? 'test@email.com' : '',
+        password: isEnvLocal() ? 'password' : '',
         remember: false,
     });
 

@@ -11,6 +11,7 @@ import { Head, visit } from '@laravext/react';
 import { useForm } from '@/hooks/use-form';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { isEnvLocal } from '@/lib/utils';
 
 interface RegisterForm {
     name: string;
@@ -21,10 +22,10 @@ interface RegisterForm {
 
 export default function Register() {
     const { data, setData, processing, errors, setErrors, reset, clearErrors } = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
+        name: isEnvLocal() ? 'User' : '',
+        email: isEnvLocal () ? 'test@email.com' : '',
+        password: isEnvLocal() ? 'password' : '',
+        password_confirmation: isEnvLocal() ? 'password' : '',
     });
 
     const {t} = useTranslation();
