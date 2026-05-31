@@ -42,7 +42,7 @@ const BRAZIL_STATES = [
 export default function StatePicker({
   value,
   onChange,
-  placeholder = "Selecione o estado",
+  placeholder = "Select a state",
   disabled,
   id,
   name,

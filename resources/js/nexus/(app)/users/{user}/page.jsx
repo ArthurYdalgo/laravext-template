@@ -31,7 +31,7 @@ export default () => {
         >
             <Head title="Users" />
             <div className="space-y-8 p-6">
-                <FormSection title="Informações Pessoais" titleWidth="md:w-48">
+                <FormSection title="Personal Information" titleWidth="md:w-48">
                     <FormRow cols={12}>
                         <FormField span={8} label="Name">
                             {user.name}
@@ -40,35 +40,35 @@ export default () => {
                         <FormField span={8} label="Email">
                             {user.email}
                         </FormField>
-                        <FormField span={4} label="Data de Nascimento">
+                        <FormField span={4} label="Birthday">
                             <MomentDate date={user.birthday} format="DD/MM/YYYY" />
                         </FormField>
                     </FormRow>
                 </FormSection>
 
-                <FormSection title="Endereço" titleWidth="md:w-48">
+                <FormSection title="Address" titleWidth="md:w-48">
                     <FormRow cols={12}>
-                        <FormField span={12} label="Logradouro">
+                        <FormField span={12} label="Street">
                             {user.address?.street ?? '--'}
                         </FormField>
 
-                        <FormField span={4} label="Número">
+                        <FormField span={4} label="Number">
                             {user.address?.number ?? '--'}
                         </FormField>
-                        <FormField span={4} label="Complemento">
+                        <FormField span={4} label="Complement">
                             {user.address?.complement ?? '--'}
                         </FormField>
-                        <FormField span={4} label="Bairro">
+                        <FormField span={4} label="District">
                             {user.address?.district ?? '--'}
                         </FormField>
 
-                        <FormField span={4} label="CEP">
+                        <FormField span={4} label="Zip Code">
                             {user.address?.zip_code ?? '--'}
                         </FormField>
-                        <FormField span={4} label="Cidade">
+                        <FormField span={4} label="City">
                             {user.address?.city ?? '--'}
                         </FormField>
-                        <FormField span={4} label="UF">
+                        <FormField span={4} label="State">
                             {user.address?.state ?? '--'}
                         </FormField>
                     </FormRow>
