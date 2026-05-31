@@ -143,7 +143,7 @@ export const DialogProvider = ({ children }) => {
                                           dialog.typeToConfirmContent
                                 }
                                 onPaste={(e) => {
-                                    toast.error("Não... não pode. Tem que digitar mesmo 😊");
+                                    toast.error("Nope... can't do it. You have to type it 😊");
 
                                     if (isEnvLocal()) {
                                         return;

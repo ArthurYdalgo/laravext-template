@@ -80,14 +80,14 @@ if (!function_exists('isEnvProduction')) {
 if (!function_exists('defaultErrorResponseMessage')) {
     function defaultErrorResponseMessage()
     {
-        return 'Erro ao processar a requisição';
+        return 'An error occurred while processing the request';
     }
 }
 
 if (!function_exists('defaultSuccessResponseMessage')) {
     function defaultSuccessResponseMessage()
     {
-        return 'Requisição processada com sucesso';
+        return 'Request processed successfully';
     }
 }
 

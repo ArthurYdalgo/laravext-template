@@ -50,7 +50,7 @@ export default function CustomerForm({ formHook, onSubmit = (e) => {}, ...props 
                         <Input
                             id="name"
                             name="name"
-                            placeholder="João"
+                            placeholder="John"
                             required
                             value={formHook.data.name ?? ''}
                             onChange={(e) => formHook.setData('name', e.target.value)}
@@ -61,7 +61,7 @@ export default function CustomerForm({ formHook, onSubmit = (e) => {}, ...props 
                         <Input
                             id="email"
                             type="email"
-                            placeholder="joao@gmail.com"
+                            placeholder="john@gmail.com"
                             value={formHook.data.email ?? ''}
                             onChange={(e) => formHook.setData('email', e.target.value)}
                         />
@@ -82,7 +82,7 @@ export default function CustomerForm({ formHook, onSubmit = (e) => {}, ...props 
             </FormSection>
 
 
-            <FormSection title="Endereço" titleWidth="md:w-48">
+            <FormSection title="Address" titleWidth="md:w-48">
                 <FormRow cols={12}>
                     <FormField span={12} error={formHook.errors['address.street']} label="Street" htmlFor="address.street" required>
                         <Input
