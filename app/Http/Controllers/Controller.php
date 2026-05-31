@@ -41,7 +41,7 @@ class Controller
     public function errorResponse($message = null, $exception = null, $errors = null)
     {
         $response = [
-            'message' => $message ?? 'Erro de validação',
+            'message' => $message ?? 'Validation error',
         ];
 
         if ($errors) {
@@ -64,7 +64,7 @@ class Controller
      */
     public function notFoundResponse($message = null, $exception = null)
     {
-        $message ??= 'Não encontrado';
+        $message ??= 'Not found';
 
         $response = [
             'message' => $message,
@@ -85,7 +85,7 @@ class Controller
      */
     public function unauthorizedResponse($message = null, $exception = null)
     {
-        $message ??= 'Não autorizado';
+        $message ??= 'Unauthorized';
 
         $response = [
             'message' => $message,
@@ -105,7 +105,7 @@ class Controller
      */
     public function unauthenticatedResponse($message = null, $exception = null)
     {
-        $message ??= 'Não autenticado';
+        $message ??= 'Not authenticated';
 
         $response = [
             'message' => $message,
@@ -127,7 +127,7 @@ class Controller
      */
     public function conflictResponse($message = null, $exception = null)
     {
-        $messages = $message ?? 'Conflito de dados';
+        $message ??= 'Data conflict';
 
         $response = [
             'message' => $message
