@@ -14,6 +14,10 @@ class SearchZipCodeController extends Controller
     {
         $zip_code = $request->input('zip_code');
 
+        if(!$zip_code){
+            return $this->errorResponse(message: 'Zip code is required');
+        }
+
         return $this->successResponse(data: searchZipCode($zip_code));
     }
 }
