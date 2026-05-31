@@ -4,22 +4,107 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-const Select = SelectPrimitive.Root;
+const lockBodyScroll = () => {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
+    const body = document.body;
+    if (body.dataset.selectScrollLocked === 'true') {
+        return;
+    }
+
+    const scrollY = window.scrollY || 0;
+    body.dataset.selectScrollLocked = 'true';
+    body.dataset.selectScrollTop = String(scrollY);
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollY}px`;
+    body.style.left = '0';
+    body.style.right = '0';
+    body.style.width = '100%';
+};
+
+const unlockBodyScroll = () => {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
+    const body = document.body;
+    if (body.dataset.selectScrollLocked !== 'true') {
+        return;
+    }
+
+    const scrollY = Number(body.dataset.selectScrollTop || 0);
+    delete body.dataset.selectScrollLocked;
+    delete body.dataset.selectScrollTop;
+    body.style.position = '';
+    body.style.top = '';
+    body.style.left = '';
+    body.style.right = '';
+    body.style.width = '';
+    window.scrollTo(0, scrollY);
+};
+
+const Select = ({ onOpenChange, ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>) => (
+    <SelectPrimitive.Root
+        onOpenChange={(open) => {
+            onOpenChange?.(open);
+            if (isIOS()) {
+                if (open) {
+                    lockBodyScroll();
+                } else {
+                    unlockBodyScroll();
+                }
+            }
+        }}
+        {...props}
+    />
+);
 
 const SelectGroup = SelectPrimitive.Group;
 
 const SelectValue = SelectPrimitive.Value;
 
+const isCoarsePointer = () =>
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(pointer: coarse)').matches;
+
+const isIOS = () =>
+    typeof window !== 'undefined' &&
+    typeof navigator !== 'undefined' &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+const restoreScrollPosition = () => {
+    if (typeof window === 'undefined') {
+        return;
+    }
+
+    const { scrollX, scrollY } = window;
+    requestAnimationFrame(() => {
+        window.scrollTo(scrollX, scrollY);
+    });
+    setTimeout(() => {
+        window.scrollTo(scrollX, scrollY);
+    }, 0);
+};
+
 const SelectTrigger = React.forwardRef<
     React.ElementRef<typeof SelectPrimitive.Trigger>,
     React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+>(({ className, children, onPointerDown, ...props }, ref) => (
     <SelectPrimitive.Trigger
         ref={ref}
         className={cn(
             'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
             className,
         )}
+        onPointerDown={(event) => {
+            onPointerDown?.(event);
+            if (!event.defaultPrevented && isCoarsePointer()) {
+                event.preventDefault();
+            }
+        }}
         {...props}
     >
         {children}
@@ -53,10 +138,25 @@ SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayNam
 const SelectContent = React.forwardRef<
     React.ElementRef<typeof SelectPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = 'popper', ...props }, ref) => (
+>(({ className, children, position = 'popper', onOpenAutoFocus, onCloseAutoFocus, ...props }, ref) => (
     <SelectPrimitive.Portal>
         <SelectPrimitive.Content
             ref={ref}
+            onOpenAutoFocus={(event) => {
+                onOpenAutoFocus?.(event);
+                if (!event.defaultPrevented && isCoarsePointer()) {
+                    event.preventDefault();
+                }
+                if (isIOS()) {
+                    restoreScrollPosition();
+                }
+            }}
+            onCloseAutoFocus={(event) => {
+                onCloseAutoFocus?.(event);
+                if (!event.defaultPrevented && isCoarsePointer()) {
+                    event.preventDefault();
+                }
+            }}
             className={cn(
                 'relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
                 position === 'popper' &&
