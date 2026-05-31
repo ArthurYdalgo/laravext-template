@@ -14,7 +14,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@laravext/react';
 import { useState } from 'react';
 import { Eye, Copy, Trash, Edit } from 'lucide-react'; 
-import VehicleTypePicker from '@/components/vehicle-type-picker';
+import { LoadingButton } from '@/components/ui/loading-button';
 
 const breadcrumbs = [
     {
@@ -45,6 +45,10 @@ export default function Dashboard() {
 
         return () => clearTimeout(delayDebounceFn);
     }, [filters]);
+
+    const handleDelete = () => {
+
+    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -81,7 +85,7 @@ export default function Dashboard() {
                                 <TableHead>Email</TableHead>
                                 <TableHead>Phone</TableHead>
                                 <TableHead>Created at</TableHead>
-                                <TableHead></TableHead>
+                                <TableHead>Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                     )}
@@ -98,7 +102,24 @@ export default function Dashboard() {
                                             <MomentDateTime date={user.created_at} />
                                         </TableCell>
                                         <TableCell className="flex gap-2">
-                                            {/* Desktop Actions */}
+                                            <Button size="xs">
+                                                <Link href={route('users.user', { user: user.id })}>
+                                                    Open
+                                                </Link>
+                                            </Button>
+                                            <Button variant='secondary' size="xs">
+                                                <Link href={route('users.user.edit', { user: user.id })}>
+                                                    Edit
+                                                </Link>
+                                            </Button>
+                                            <LoadingButton 
+                                                variant='destructive' 
+                                                size="xs"
+                                                onClick={handleDelete}
+                                                includeChildrenWhenLoading={false}
+                                            >
+                                                Delete
+                                            </LoadingButton>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -117,22 +138,22 @@ export default function Dashboard() {
                                     actions={
                                         <div className="flex items-center gap-1 sm:gap-2">
                                             {/* Fixed explicit w/h instead of negative margins for large touch targets! */}
-                                            <button type="button" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                                                <Eye size={20} />
-                                            </button>
-                                            <button type="button" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                                                <Copy size={20} />
-                                            </button>
-                                            <button type="button" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-red-500/50 text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                                            <Button>
+                                                <Link href={route('users.user', { user: user.id })}>
+                                                    <Eye size={20} />
+                                                </Link>
+                                            </Button>
+                                            <Button variant='secondary'>
+                                                <Link href={route('users.user.edit', { user: user.id })}>
+                                                    <Edit size={24} />
+                                                </Link>
+                                            </Button>
+                                            <Button variant='destructive' includeChildrenWhenLoading={false}>
                                                 <Trash size={20} />
-                                            </button>
-                                            <button type="button" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                                                <Edit size={20} />
-                                            </button>
+                                            </Button>
                                         </div>
                                     }
                                     mainProps={[
-                                        { label: 'User ID', value: user.id },
                                         { label: 'Email Address', value: user.email },
                                         { label: 'Status', value: <span className="inline-flex w-max items-center text-green-600 dark:text-green-400 before:content-[''] before:w-2 before:h-2 before:bg-green-500 dark:before:bg-green-400 before:rounded-full before:mr-2 border border-green-200 dark:border-green-900 px-2 py-0.5 rounded-full text-xs whitespace-nowrap">Active</span> }
                                     ]}

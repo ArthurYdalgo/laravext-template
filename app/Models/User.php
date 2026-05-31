@@ -42,6 +42,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    protected $appends = [
+        'first_name',
+        'last_name'
+    ];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -59,5 +64,20 @@ class User extends Authenticatable implements MustVerifyEmail
     #region Relationships
     public function uploadedMedia(){
         return $this->hasMany(Media::class, 'uploader_id');
+    }
+
+    #regions Getters and Setters
+    public function getFirstNameAttribute(){
+        return explode(' ', $this->name)[0] ?? null;
+    }
+
+    public function getLastNameAttribute(){
+        $parts = explode(' ', $this->name);
+
+        if(count($parts) <= 1) {
+            return null;
+        }
+
+        return $parts[count($parts) - 1];
     }
 }

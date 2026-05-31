@@ -28,7 +28,7 @@ export default function Links({
     compact = true,
     responsive = true,
     onPaginateTo,
-    perPageOptions = [5, 8, 10, 15, 25, 50, 100],
+    perPageOptions = [5, 8, 10, 15, 25, 50],
     className = '',
     ...props
 }) {

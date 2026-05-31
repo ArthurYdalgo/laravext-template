@@ -25,7 +25,11 @@ Route::middleware(['auth'])->group(function () {
     Route::laravext("dashboard");
     Route::laravext('settings');
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('settings.profile');
-    Route::get('users', [UserController::class, 'index']);
+    Route::resource('users', UserController::class)->only(['index', 'show', 'edit'])->names([
+        'index' => 'users',
+        'show' => 'users.user',
+        'edit' => 'users.user.edit',
+    ]);
 
     Route::nexus('confirm-password')->name('password.confirm');
     Route::get('verify-email', EmailVerificationPromptController::class)
