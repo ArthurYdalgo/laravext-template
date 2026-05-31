@@ -1,4 +1,5 @@
 import { FormField, FormRow, FormSection } from '@/components/form-layout';
+import MomentDate from '@/components/moment-date';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, nexusProps } from '@laravext/react';
@@ -13,7 +14,7 @@ export default () => {
             breadcrumbs={[
                 {
                     title: 'Users',
-                    href: '/users',
+                    href: route('users'),
                 },
                 {
                     title: `#${user.id} ${user.first_name}`,
@@ -28,33 +29,19 @@ export default () => {
                 </div>
             }
         >
-            <Head title="Veículos" />
+            <Head title="Users" />
             <div className="space-y-8 p-6">
                 <FormSection title="Informações Pessoais" titleWidth="md:w-48">
                     <FormRow cols={12}>
-                        <FormField span={8} label="Nome">
-                            {customer.name}
-                        </FormField>
-                        <FormField span={4} label="CPF">
-                            {customer.cpf}
+                        <FormField span={8} label="Name">
+                            {user.name}
                         </FormField>
 
                         <FormField span={8} label="Email">
-                            {customer.email}
+                            {user.email}
                         </FormField>
                         <FormField span={4} label="Data de Nascimento">
-                            {moment(customer.birthday).format('DD/MM/YYYY')}
-                        </FormField>
-                    </FormRow>
-                </FormSection>
-
-                <FormSection title="Documentação" titleWidth="md:w-48">
-                    <FormRow cols={12}>
-                        <FormField span={8} label="CNH">
-                            {customer.license_number}
-                        </FormField>
-                        <FormField span={4} label="UF emissora da CNH">
-                            {customer.license_issuing_state}
+                            <MomentDate date={user.birthday} format="DD/MM/YYYY" />
                         </FormField>
                     </FormRow>
                 </FormSection>
@@ -62,27 +49,27 @@ export default () => {
                 <FormSection title="Endereço" titleWidth="md:w-48">
                     <FormRow cols={12}>
                         <FormField span={12} label="Logradouro">
-                            {customer.address.street}
+                            {user.address?.street ?? '--'}
                         </FormField>
 
                         <FormField span={4} label="Número">
-                            {customer.address.number}
+                            {user.address?.number ?? '--'}
                         </FormField>
                         <FormField span={4} label="Complemento">
-                            {customer.address.complement ?? '--'}
+                            {user.address?.complement ?? '--'}
                         </FormField>
                         <FormField span={4} label="Bairro">
-                            {customer.address.district}
+                            {user.address?.district ?? '--'}
                         </FormField>
 
                         <FormField span={4} label="CEP">
-                            {customer.address.zip_code}
+                            {user.address?.zip_code ?? '--'}
                         </FormField>
                         <FormField span={4} label="Cidade">
-                            {customer.address.city}
+                            {user.address?.city ?? '--'}
                         </FormField>
                         <FormField span={4} label="UF">
-                            {customer.address.state}
+                            {user.address?.state ?? '--'}
                         </FormField>
                     </FormRow>
                 </FormSection>

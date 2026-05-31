@@ -50,5 +50,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::apiResource('users', UserController::class)->only('index');
 
-    // Route::get("tools/search-zip-code", SearchZipCodeController::class);
+    Route::get("tools/search-zip-code", SearchZipCodeController::class);
 });

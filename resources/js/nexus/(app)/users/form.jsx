@@ -56,15 +56,6 @@ export default function CustomerForm({ formHook, onSubmit = (e) => {}, ...props 
                             onChange={(e) => formHook.setData('name', e.target.value)}
                         />
                     </FormField>
-                    <FormField span={4} error={formHook.errors.cpf} label="CPF" htmlFor="last" required>
-                        <CpfInput
-                            id="cpf"
-                            name="cpf"
-                            required
-                            value={formHook.data.cpf ?? ''}
-                            onChange={(e) => formHook.setData('cpf', e.target.value)}
-                        />
-                    </FormField>
 
                     <FormField span={8} error={formHook.errors.email} label="Email" htmlFor="email" required>
                         <Input
@@ -90,64 +81,35 @@ export default function CustomerForm({ formHook, onSubmit = (e) => {}, ...props 
                 </FormRow>
             </FormSection>
 
-            <FormSection title="Documentação" titleWidth="md:w-48">
-                <FormRow cols={12}>
-                    <FormField span={8} error={formHook.errors.license_number} label="CNH" htmlFor="license_number" required>
-                        <Input
-                            id="license_number"
-                            name="license_number"
-                            placeholder="Número da CNH"
-                            required
-                            value={formHook.data.license_number ?? ''}
-                            onChange={(e) => formHook.setData('license_number', e.target.value)}
-                        />
-                    </FormField>
-                    <FormField
-                        span={4}
-                        error={formHook.errors.license_issuing_state}
-                        label="UF emissora da CNH"
-                        htmlFor="license_issuing_state"
-                        required
-                    >
-                        <StatePicker
-                            id="license_issuing_state"
-                            name="license_issuing_state"
-                            required
-                            value={formHook.data.license_issuing_state ?? ''}
-                            onChange={(value) => formHook.setData('license_issuing_state', value)}
-                        />
-                    </FormField>
-                </FormRow>
-            </FormSection>
 
             <FormSection title="Endereço" titleWidth="md:w-48">
                 <FormRow cols={12}>
-                    <FormField span={12} error={formHook.errors['address.street']} label="Logradouro" htmlFor="address.street" required>
+                    <FormField span={12} error={formHook.errors['address.street']} label="Street" htmlFor="address.street" required>
                         <Input
                             id="address.street"
                             name="address.street"
-                            placeholder="Rua Cristo Rei"
+                            placeholder="Baker Street"
                             required
                             value={formHook.data.address?.street ?? ''}
                             onChange={(e) => formHook.setData('address', { ...formHook.data.address, street: e.target.value })}
                         />
                     </FormField>
 
-                    <FormField span={4} error={formHook.errors['address.number']} label="Número" htmlFor="address.number" required>
+                    <FormField span={4} error={formHook.errors['address.number']} label="Number" htmlFor="address.number" required>
                         <Input
                             id="address.number"
                             name="address.number"
-                            placeholder="42"
+                            placeholder="441B"
                             required
                             value={formHook.data.address?.number ?? ''}
                             onChange={(e) => formHook.setData('address', { ...formHook.data.address, number: e.target.value })}
                         />
                     </FormField>
-                    <FormField span={4} error={formHook.errors['address.complement']} label="Complemento" htmlFor="address.complement">
+                    <FormField span={4} error={formHook.errors['address.complement']} label="Complement" htmlFor="address.complement">
                         <Input
                             id="address.complement"
                             name="address.complement"
-                            placeholder="Bloco E, Sala 306"
+                            placeholder="Second floor"
                             value={formHook.data.address?.complement ?? ''}
                             onChange={(e) => formHook.setData('address', { ...formHook.data.address, complement: e.target.value })}
                         />

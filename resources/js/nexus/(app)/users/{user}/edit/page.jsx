@@ -2,18 +2,17 @@ import { useForm } from '@/hooks/use-form';
 import AppLayout from '@/layouts/app-layout';
 import { Head, nexus, nexusProps, routeParams, visit } from '@laravext/react';
 import { useState } from 'react';
-import Form from '../../form';
-import CustomerForm from '../../form';
+import UserForm from '../../form';
 import { dateToDateString, dateToForm } from '@/lib/utils';
 import axios from 'axios';
 import { toast } from "sonner";
 
 export default () => {
-    const [customer, setCustomer] = useState(nexusProps().customer);
+    const [user, setUser] = useState(nexusProps().user);
 
     const { data, setData, errors, setErrors, reset, processing, setProcessing } = useForm({
-        ...nexusProps().customer,
-        birthday: dateToForm(nexusProps().customer.birthday),
+        ...nexusProps().user,
+        birthday: dateToForm(nexusProps().user.birthday),
     });
 
     const handleSubmit = (e) => {
@@ -23,15 +22,15 @@ export default () => {
 
         setProcessing(true);
 
-        axios.put(`/api/customers/${customer.id}`, body)
+        axios.put(`/api/users/${user.id}`, body)
         .then((response) => {
-            toast.success("Cliente atualizado com sucesso!");
-            visit(route("clientes.customer", {customer: customer.id}));
+            toast.success("User update");
+            visit(route("users.user", {user: user.id}));
         })
         .catch((error) => {
             let response = error.response.data;
             console.log(response);
-            let message = response?.message ?? "Erro ao atualizar cliente.";
+            let message = response?.message ?? "Error updating user";
 
             toast.error(message);
             setErrors(response?.errors);
@@ -45,21 +44,21 @@ export default () => {
         <AppLayout
             breadcrumbs={[
                 {
-                    title: 'Clientes',
-                    href: route('clientes'),
+                    title: 'Users',
+                    href: route('users'),
                 },
                 {
-                    title: `#${customer.id} ${customer.first_name}`,
-                    href: route('clientes.customer', { customer: customer.id }),
+                    title: `#${user.id} ${user.first_name}`,
+                    href: route('users.user', { user: user.id }),
                 },
                 {
                     title: `Editar`,
-                    href: route('clientes.customer.editar', { customer: customer.id }),
+                    href: route('users.user.edit', { user: user.id }),
                 },
             ]}
         >
             <Head title="Veículos" />
-            <CustomerForm formHook={{data, setData, errors, reset, processing, setProcessing}} onSubmit={handleSubmit} />
+            <UserForm formHook={{data, setData, errors, reset, processing, setProcessing}} onSubmit={handleSubmit} />
         </AppLayout>
     );
 };
