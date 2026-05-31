@@ -11,7 +11,7 @@
         
         @vite(['resources/css/app.css'])
     </head>
-    <body class="font-sans antialiased mt-28">
+    <body class="font-sans antialiased">
         @yield('content')
         @laravextScripts
         @viteReactRefresh
