@@ -21,13 +21,13 @@ export default () => {
                     href: route('users.user', { user: user.id }),
                 },
             ]}
-            actions={
-                <div className="ml-auto flex items-center gap-2">
-                    <Button size="xs" asChild>
-                        <Link href={route('users.user.edit', { user: user.id })}>Edit</Link>
-                    </Button>
-                </div>
-            }
+            // actions={
+            //     <div className="ml-auto flex items-center gap-2">
+            //         <Button size="xs" asChild>
+            //             <Link href={route('users.user.edit', { user: user.id })}>Edit</Link>
+            //         </Button>
+            //     </div>
+            // }
         >
             <Head title="Users" />
             <div className="space-y-8 p-6">

@@ -25,8 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::laravext("dashboard");
     Route::laravext('settings');
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('settings.profile');
-    Route::resource('users', UserController::class)->only(['index', 'show', 'edit'])->names([
-        'index' => 'users',
+    Route::resource('users', UserController::class)->only(['show', 'edit'])->names([
         'show' => 'users.user',
         'edit' => 'users.user.edit',
     ]);
