@@ -53,9 +53,8 @@ export default function Dashboard() {
             <div className="flex w-full min-w-0 max-w-full flex-col gap-4 rounded-xl p-4 md:p-6 bg-gray-50/50 dark:bg-transparent box-border overflow-x-clip">
                 
                 <TableBanner
-                    enableResponsiveMode={true} 
                     filterComponents={
-                        <div className="w-full min-w-0">
+                        <>
                             <Filter label={'Search User'}>
                                 <Input 
                                     className="w-full min-w-0 bg-white dark:bg-zinc-950 dark:border-zinc-800 dark:text-gray-100"
@@ -64,16 +63,7 @@ export default function Dashboard() {
                                     onChange={(e) => setFilter('search', e.target.value)} 
                                 />
                             </Filter>
-                            <Filter label={'Search User'}>
-                                <VehicleTypePicker
-                                    id="type"
-                                    name="type"
-                                    required
-                                    value={filters.type ?? ''}
-                                    onChange={(value) => setFilter('type', value)}
-                                />
-                            </Filter>
-                        </div>
+                        </>
                     }
                 />
                 
