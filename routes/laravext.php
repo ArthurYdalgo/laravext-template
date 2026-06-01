@@ -17,7 +17,7 @@ Route::laravext();
  * This is done to give a proper name to the welcome route, so it can be
  * referenced using the route helper.
  */
-Route::nexus('', root_view: 'sections.guest')->name('home');
+Route::nexus('')->name('home');
 
 // Some of these route is explicitly named to be consistent with the Laravel default,
 // like "password.reset" and "password.confirm"
@@ -37,9 +37,9 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['guest'])->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::nexus('register', root_view: 'sections.guest')->name('register');
+    Route::nexus('register')->name('register');
     
-    Route::nexus('reset-password/{token}', root_view: 'sections.guest')->name('password.reset');
+    Route::nexus('reset-password/{token}')->name('password.reset');
 });
 
 

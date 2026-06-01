@@ -8,11 +8,11 @@ import AppLogo from './app-logo';
 import { Link } from '@laravext/react';
 
 const mainNavItems: NavItem[] = [
-    // {
-    //     title: 'Dashboard',
-    //     url: '/dashboard',
-    //     icon: LayoutGrid,
-    // },
+    {
+        title: 'Dashboard',
+        url: '/dashboard',
+        icon: LayoutGrid,
+    },
     {
         title: 'Users',
         url: '/users',

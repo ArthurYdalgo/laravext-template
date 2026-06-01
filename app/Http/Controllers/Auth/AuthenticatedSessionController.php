@@ -19,7 +19,6 @@ class AuthenticatedSessionController extends Controller
         return nexus(props: [
             'canResetPassword' => Route::has('forgot-password'),
         ])
-        ->rootView('sections.guest')
         ->render();
     }
 
