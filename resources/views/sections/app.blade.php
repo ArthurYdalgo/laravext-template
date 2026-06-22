@@ -1,12 +1,14 @@
 @extends('layouts.app')
 @section('content')
+
     {{-- <native:top-bar :title="@$head['title'] ?? 'Laravext'">
         <native:top-bar-group id="more" icon="more" label="More">
             <native:top-bar-action id="help" icon="help" label="Help" url="/settings/profile" />
             <native:top-bar-action id="about" icon="info" label="About" url="/" />
         </native:top-bar-group>
-    </native:top-bar>
+    </native:top-bar> --}}
 
+    {{-- 
     <native:side-nav gestures-enabled="true">
         <native:side-nav-header title="My App" subtitle="user@example.com" icon="person" url="/settings/profile"
             :show-close-button="false" />

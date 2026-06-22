@@ -19,13 +19,13 @@ const DialogContext = createContext();
 
 // Global reference to showDialog (this will be exported)
 let showDialog = ({
-    title = "Tem certeza?",
+    title = "Are you sure?",
     description = '',
-    cancelText = "Cancelar",
-    actionText = "Confirmar",
+    cancelText = "Cancel",
+    actionText = "Confirm",
     showCancelButton = true,
-    typeToConfirmLabel = "Por favor, confirme:",
-    typeToConfirmPlaceholderPrefix = "Digite aqui: ",
+    typeToConfirmLabel = "Please, confirm:",
+    typeToConfirmPlaceholderPrefix = "Type here: ",
     typeToConfirmPlaceholder = '',
     typeToConfirmContent = '',
     titleClassName = "",
@@ -39,12 +39,12 @@ let showDialog = ({
 export const DialogProvider = ({ children }) => {
     const [dialog, setDialog] = useState({
         isOpen: false,
-        title: "Tem certeza?",
+        title: "Are you sure?",
         description: null,
-        cancelText: "Cancelar",
-        actionText: "Confirmar",
-        typeToConfirmLabel: "Por favor, confirme:",
-        typeToConfirmPlaceholderPrefix: "Digite aqui: ",
+        cancelText: "Cancel",
+        actionText: "Confirm",
+        typeToConfirmLabel: "Please, confirm:",
+        typeToConfirmPlaceholderPrefix: "Type here: ",
         typeToConfirmPlaceholder: null,
         typeToConfirmContent: null,
         showCancelButton: true,
@@ -60,12 +60,12 @@ export const DialogProvider = ({ children }) => {
     const [confirmationInput, setConfirmationInput] = useState("");
 
     const showDialogHandler = ({
-        title = "Tem certeza?",
+        title = "Are you sure?",
         description = null,
-        cancelText = "Cancelar",
-        actionText = "Confirmar",
-        typeToConfirmLabel = "Por favor, confirme:",
-        typeToConfirmPlaceholderPrefix = "Digite aqui: ",
+        cancelText = "Cancel",
+        actionText = "Confirm",
+        typeToConfirmLabel = "Please, confirm:",
+        typeToConfirmPlaceholderPrefix = "Type here: ",
         typeToConfirmPlaceholder = null,
         typeToConfirmContent = null,
         showCancelButton = true,

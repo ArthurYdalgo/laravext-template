@@ -15,6 +15,8 @@ import { Head, Link, visit } from '@laravext/react';
 import { useState } from 'react';
 import { Eye, Copy, Trash, Edit } from 'lucide-react'; 
 import { LoadingButton } from '@/components/ui/loading-button';
+import { showDialog } from '@/providers/dialog-provider';
+import { toast } from "sonner"
 
 const breadcrumbs = [
     {
@@ -46,8 +48,15 @@ export default function Dashboard() {
         return () => clearTimeout(delayDebounceFn);
     }, [filters]);
 
-    const handleDelete = () => {
-
+    const handleDelete = (user) => {
+        showDialog({
+            title: 'Confirm Deletion',
+            description: `Are you sure you want to delete user "${user.name}"? This action cannot be undone.`,
+            typeToConfirmContent: user.name,
+            onAction: () => {
+                toast.success('This would be an API call...');
+            }
+        });
     }
 
     return (
@@ -111,15 +120,15 @@ export default function Dashboard() {
                                                 <Link href={route('users.user.edit', { user: user.id })}>
                                                     Edit
                                                 </Link>
-                                            </Button>
+                                            </Button> */}
                                             <LoadingButton 
                                                 variant='destructive' 
                                                 size="xs"
-                                                onClick={handleDelete}
+                                                onClick={() => handleDelete(user)}
                                                 includeChildrenWhenLoading={false}
                                             >
                                                 Delete
-                                            </LoadingButton> */}
+                                            </LoadingButton>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -147,10 +156,10 @@ export default function Dashboard() {
                                                 <Link href={route('users.user.edit', { user: user.id })}>
                                                     <Edit size={24} />
                                                 </Link>
-                                            </Button>
-                                            <Button variant='destructive' includeChildrenWhenLoading={false}>
-                                                <Trash size={20} />
                                             </Button> */}
+                                            <Button variant='destructive' onClick={() => handleDelete(user)} includeChildrenWhenLoading={false}>
+                                                <Trash size={20} />
+                                            </Button>
                                         </div>
                                     }
                                     mainProps={[
