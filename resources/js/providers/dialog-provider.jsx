@@ -9,9 +9,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
-import { toast } from "sonner"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 import { isEnvLocal } from "@/lib/utils";
 
 // Context
@@ -28,6 +28,8 @@ let showDialog = ({
     typeToConfirmPlaceholderPrefix = "Type here: ",
     typeToConfirmPlaceholder = '',
     typeToConfirmContent = '',
+    allowPaste = false,
+    pasteErrorMessage = "Nope... can't do it. You have to type it 😊", // <-- Added here
     titleClassName = "",
     descriptionClassName = "",
     actionButtonClassName = "",
@@ -47,6 +49,8 @@ export const DialogProvider = ({ children }) => {
         typeToConfirmPlaceholderPrefix: "Type here: ",
         typeToConfirmPlaceholder: null,
         typeToConfirmContent: null,
+        allowPaste: false,
+        pasteErrorMessage: "Nope... can't do it. You have to type it 😊", // <-- Added here
         showCancelButton: true,
         titleClassName: "",
         descriptionClassName: "",
@@ -68,6 +72,8 @@ export const DialogProvider = ({ children }) => {
         typeToConfirmPlaceholderPrefix = "Type here: ",
         typeToConfirmPlaceholder = null,
         typeToConfirmContent = null,
+        allowPaste = false,
+        pasteErrorMessage = "Nope... can't do it. You have to type it 😊", // <-- Added here
         showCancelButton = true,
         titleClassName = "",
         descriptionClassName = "",
@@ -86,6 +92,8 @@ export const DialogProvider = ({ children }) => {
             typeToConfirmPlaceholderPrefix,
             typeToConfirmPlaceholder,
             typeToConfirmContent,
+            allowPaste,
+            pasteErrorMessage, // <-- Added here
             showCancelButton,
             titleClassName,
             descriptionClassName,
@@ -143,7 +151,12 @@ export const DialogProvider = ({ children }) => {
                                           dialog.typeToConfirmContent
                                 }
                                 onPaste={(e) => {
-                                    toast.error("Nope... can't do it. You have to type it 😊");
+                                    if (dialog.allowPaste) {
+                                        return; 
+                                    }
+
+                                    // Use the customizable message here
+                                    toast.error(dialog.pasteErrorMessage);
 
                                     if (isEnvLocal()) {
                                         return;
@@ -151,7 +164,6 @@ export const DialogProvider = ({ children }) => {
 
                                     e.preventDefault();
                                 }}
-                                
                                 value={confirmationInput}
                                 onChange={(e) =>
                                     setConfirmationInput(e.target.value)

@@ -53,6 +53,11 @@ export default function Dashboard() {
             title: 'Confirm Deletion',
             description: `Are you sure you want to delete user "${user.name}"? This action cannot be undone.`,
             typeToConfirmContent: user.name,
+            // In case you want to allow pasting, you can set allowPaste to true. This is false by default
+            // allowPaste: true,
+
+            // Or if you want to (optinally) customize the paste error message, you can do so like this:
+            // pasteErrorMessage: "For security resons, you must type the user's name to confirm deletion.",
             onAction: () => {
                 toast.success('This would be an API call...');
             }
