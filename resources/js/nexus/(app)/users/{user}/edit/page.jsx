@@ -52,12 +52,12 @@ export default () => {
                     href: route('users.user', { user: user.id }),
                 },
                 {
-                    title: `Editar`,
+                    title: `Edit`,
                     href: route('users.user.edit', { user: user.id }),
                 },
             ]}
         >
-            <Head title="Veículos" />
+            <Head title="Users" />
             <UserForm formHook={{data, setData, errors, reset, processing, setProcessing}} onSubmit={handleSubmit} />
         </AppLayout>
     );
