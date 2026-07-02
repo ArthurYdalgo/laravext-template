@@ -3,7 +3,7 @@ import { sharedProps } from '@laravext/react';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 
-export default function AppearanceToggleTab({ className = '', ...props }) {
+export default function LanguageToggleTab({ className = '', ...props }) {
     const { t, i18n } = useTranslation();
     const { user } = sharedProps().auth;
 
@@ -48,7 +48,7 @@ export default function AppearanceToggleTab({ className = '', ...props }) {
                     key={locale}
                     onClick={() => handleLocaleChange(locale)}
                     className={cn(
-                        'flex items-center rounded-md px-3.5 py-1.5 transition-colors',
+                        'flex items-center rounded-md px-3.5 py-1.5 cursor-pointer transition-colors',
                         locale === i18n.language
                             ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100'
                             : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60',
