@@ -19,7 +19,7 @@
   "license": "MIT",
   "require": {
     "php": "^8.4",
-    "arthurydalgo/laravext": "^1.1",
+    "arthurydalgo/laravext": "^1.3.1",
     "laravel/framework": "^13.2.0",
     "laravel/sanctum": "^4.0",
     "laravel/telescope": "^5.0",
