@@ -1,10 +1,7 @@
-// layout.jsx
-import React from 'react';
 import { useLayout } from '@/hooks/use-layout';
 import AppLayout from '@/layouts/app-layout';
 
-export default function CustomLayout({ children }) {
-    // Automatically updates whenever a page changes the breadcrumbs
+export default ({ children }) => {
     const breadcrumbs = useLayout((state) => state.breadcrumbs);
 
     return (
