@@ -20,7 +20,6 @@
   "require": {
     "php": "^8.4",
     "arthurydalgo/laravext": "^1.1",
-    "chinleung/laravel-multilingual-routes": "^6.0",
     "laravel/framework": "^13.2.0",
     "laravel/sanctum": "^4.0",
     "laravel/telescope": "^5.0",
