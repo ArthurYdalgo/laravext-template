@@ -2,7 +2,7 @@
 import { createLaravextSsrApp } from '@laravext/react';
 import { serve } from '@laravext/react/server';
 import { resolveComponent } from '@laravext/react/tools';
-import { route } from '../../vendor/tightenco/ziggy/src/js';
+import { localizedRoute } from './lib/utils';
 
 serve(({ window, cookies }: { window: any; cookies: any }) => {
     return createLaravextSsrApp({
@@ -18,8 +18,8 @@ serve(({ window, cookies }: { window: any; cookies: any }) => {
             if (laravext?.page_data?.shared_props?.ziggy) {
                 /* eslint-disable */
                 // @ts-expect-error
-                global.route = (name: any, params: any, absolute: boolean) =>
-                    route(name, params, absolute, {
+                global.route = (name: any, params: any, absolute: any) =>
+                    localizedRoute(name, params, absolute, {
                         ...laravext.page_data.shared_props.ziggy,
                         url: laravext.page_data.shared_props.ziggy.url,
                     });

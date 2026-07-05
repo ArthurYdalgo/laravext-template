@@ -17,6 +17,7 @@ import { Eye, Copy, Trash, Edit } from 'lucide-react';
 import { LoadingButton } from '@/components/ui/loading-button';
 import { showDialog } from '@/providers/dialog-provider';
 import { toast } from "sonner"
+import PageMeta from '@/components/page-meta';
 
 const breadcrumbs = [
     {
@@ -27,6 +28,7 @@ const breadcrumbs = [
 
 export default function Dashboard() {
     const { filters, setFilter } = useFilter({});
+
 
     const [params, setParams] = useState({
         include: 'phone',
@@ -65,8 +67,9 @@ export default function Dashboard() {
     }
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title="Users" />
+            <PageMeta breadcrumbs={breadcrumbs} />
             {/* overflow-x-clip is an absolute safeguard against child element bleeding */}
             <div className="flex w-full min-w-0 max-w-full flex-col gap-4 rounded-xl p-4 md:p-6 bg-gray-50/50 dark:bg-transparent box-border overflow-x-clip">
                 
@@ -181,6 +184,6 @@ export default function Dashboard() {
                     )}
                 />
             </div>
-        </AppLayout>
+        </>
     );
 }

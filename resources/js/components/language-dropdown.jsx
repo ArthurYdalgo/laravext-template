@@ -5,28 +5,11 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { locales } from '@/lib/locale';
 
 export default function LanguageToggleDropdown({ className = '', ...props }) {
     const { t, i18n } = useTranslation();
     const { user } = sharedProps().auth;
-
-    const locales = {
-        pt: {
-            locale: 'pt',
-            name: 'Português',
-            flag: '/images/flags/br.svg',
-        },
-        en: {
-            locale: 'en',
-            name: 'English',
-            flag: '/images/flags/us.svg',
-        },
-        // es: {
-        //     locale: 'es',
-        //     name: 'Español',
-        //     flag: '/images/flags/mx.svg',
-        // },
-    };
 
     useEffect(() => {
         if (user) {

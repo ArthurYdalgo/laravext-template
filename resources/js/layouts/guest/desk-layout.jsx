@@ -7,7 +7,7 @@ export default function DeskLayout({ children }) {
             {/* Theme toggle in the top right corner */}
             <div className="absolute top-4 flex space-x-2 right-4 z-10">
                 <AppearanceToggleDropdown />
-                {/* <LanguageToggleDropdown /> */}
+                <LanguageToggleDropdown />
             </div>
             <div className="flex flex-col lg-custom:flex-row h-screen px-5 sm:px-0">
                 <div className="hidden lg-custom:block w-1/2 bg-gray-200">

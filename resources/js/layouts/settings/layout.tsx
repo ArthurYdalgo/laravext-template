@@ -1,7 +1,7 @@
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
+import { cn, currentRouteIs } from '@/lib/utils';
 import { type NavItem } from '@/types';
 import { laravextPageData, Link, path } from '@laravext/react';
 
@@ -9,23 +9,27 @@ const sidebarNavItems: NavItem[] = [
     {
         title: 'Profile',
         url: '/settings/profile',
+        routeName: 'settings.profile',
         icon: null,
     },
     {
         title: 'Password',
         url: '/settings/password',
+        routeName: 'settings.password',
         icon: null,
     },
     {
         title: 'Appearance',
         url: '/settings/appearance',
+        routeName: 'settings.appearance',
         icon: null,
     },
-    // {
-    //     title: 'Language',
-    //     url: '/settings/language',
-    //     icon: null
-    // }
+    {
+        title: 'Language',
+        url: '/settings/language',
+        routeName: 'settings.language',
+        icon: null
+    }
 ];
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
@@ -38,15 +42,15 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
                     <nav className="flex flex-col space-y-1 space-x-0">
                         {sidebarNavItems.map((item) => (
                             <Button
-                                key={item.url}
+                                key={item.routeName ? route(item.routeName) : item.url}
                                 size="sm"
                                 variant="ghost"
                                 asChild
                                 className={cn('w-full justify-start', {
-                                    'bg-muted': path() === item.url,
+                                    'bg-muted': item.routeName ? currentRouteIs(item.routeName) : path() === item.url,
                                 })}
                             >
-                                <Link href={item.url}>
+                                <Link href={item.routeName ? route(item.routeName) : item.url}>
                                     {item.title}
                                 </Link>
                             </Button>

@@ -12,6 +12,8 @@ class Phone extends Model
     protected $fillable = [
         'model_id',
         'model_type',
+        'country_calling_code',
+        'country_code',
         'number',
     ];
 

@@ -11,11 +11,13 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         url: '/dashboard',
+        routeName: 'dashboard',
         icon: LayoutGrid,
     },
     {
         title: 'Users',
         url: '/users',
+        routeName: 'users',
         icon: UserCircle,
     }
 ];
@@ -40,7 +42,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={'/users'}>
+                            <Link href={route('users')}>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

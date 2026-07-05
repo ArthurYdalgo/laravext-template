@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { UserMenuContent } from '@/components/user-menu-content';
 import useAuth from '@/hooks/use-auth';
 import { useInitials } from '@/hooks/use-initials';
-import { cn } from '@/lib/utils';
+import { cn, currentRouteIs } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem } from '@/types';
 import { Link, url } from '@laravext/react';
 import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
@@ -21,11 +21,13 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         url: '/dashboard',
+        routeName: 'dashboard',
         icon: LayoutGrid,
     },
     {
         title: 'Users',
         url: '/users',
+        routeName: 'users',
         icon: UserCircle,
     }
 ];
@@ -52,6 +54,7 @@ interface AppHeaderProps {
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const { user } = useAuth();
     const getInitials = useInitials();
+    
     return (
         <>
             <div className="border-sidebar-border/80 border-b">
@@ -114,14 +117,14 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                             href={item.url}
                                             className={cn(
                                                 navigationMenuTriggerStyle(),
-                                                url() === item.url && activeItemStyles,
+                                                (item.routeName ? currentRouteIs(item.routeName) : url() === item.url) && activeItemStyles,
                                                 'h-9 cursor-pointer px-3',
                                             )}
                                         >
                                             {item.icon && <Icon iconNode={item.icon} className="mr-2 h-4 w-4" />}
                                             {item.title}
                                         </Link>
-                                        {url() === item.url && (
+                                        {(item.routeName? currentRouteIs(item.routeName) : url() === item.url) && (
                                             <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
                                         )}
                                     </NavigationMenuItem>

@@ -25,8 +25,8 @@ trait HasPhones
      * 
      * @return App\Models\Phone
      */
-    public function setPhone($number){
-        $phone = $this->phone()->updateOrCreate([], compact('number'));
+    public function setPhone($number, $country_code = null, $country_calling_code = null){
+        $phone = $this->phone()->updateOrCreate([], compact('number', 'country_code', 'country_calling_code'));
 
         return $phone;
     }

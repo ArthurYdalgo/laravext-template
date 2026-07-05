@@ -1,6 +1,7 @@
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { currentRouteIs } from '@/lib/utils';
 import { type NavItem } from '@/types';
-import { laravextPageData, Link, path } from '@laravext/react';
+import { Link, path } from '@laravext/react';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
     return (
@@ -9,8 +10,8 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
             <SidebarMenu>
                 {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild isActive={item.url === path()}>
-                            <Link href={item.url}>
+                        <SidebarMenuButton asChild isActive={item.routeName ? currentRouteIs(item.routeName) :item.url === path()}>
+                            <Link href={item.routeName ? route(item.routeName) :item.url}>
                                 {item.icon && <item.icon />}
                                 <span>{item.title}</span>
                             </Link>

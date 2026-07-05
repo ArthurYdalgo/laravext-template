@@ -1,3 +1,4 @@
+import { locales } from '@/lib/locale';
 import { cn } from '@/lib/utils';
 import { sharedProps } from '@laravext/react';
 import Cookies from 'js-cookie';
@@ -7,23 +8,7 @@ export default function LanguageToggleTab({ className = '', ...props }) {
     const { t, i18n } = useTranslation();
     const { user } = sharedProps().auth;
 
-    const tabs = {
-        pt: {
-            locale: 'pt',
-            name: 'Português',
-            flag: '/images/flags/br.svg',
-        },
-        en: {
-            locale: 'en',
-            name: 'English',
-            flag: '/images/flags/us.svg',
-        },
-        // es: {
-        //     locale: 'es',
-        //     name: 'Español',
-        //     flag: '/images/flags/mx.svg',
-        // },
-    };
+    const tabs = locales;
 
     const getLanguageIcon = (locale) => {
         return <img src={tabs[locale]?.flag} alt={tabs[locale]?.locale} className="h-5 w-5" />;

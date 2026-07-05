@@ -24,19 +24,16 @@ Route::nexus('')->name('home');
 Route::middleware(['auth'])->group(function () {
     Route::laravext("dashboard");
     Route::laravext('settings');
-    Route::get('settings/profile', [ProfileController::class, 'edit'])->name('settings.profile');
-    Route::resource('users', UserController::class)->only(['show', 'edit'])->names([
-        'show' => 'users.user',
-        'edit' => 'users.user.edit',
-    ]);
+    Route::nexus('settings/profile', [ProfileController::class, 'edit'])->name('settings.profile');
+    Route::nexus('users/{user}', [UserController::class, 'show'])->name('users.user');
+    Route::nexus('users/{user}/edit', [UserController::class, 'edit'])->name('users.user.edit');
 
     Route::nexus('confirm-password')->name('password.confirm');
-    Route::get('verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
+    Route::nexus('verify-email', EmailVerificationPromptController::class)->name('verification.notice');
 });
 
 Route::middleware(['guest'])->group(function () {
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::nexus('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::nexus('register')->name('register');
     
     Route::nexus('reset-password/{token}')->name('password.reset');

@@ -17,6 +17,8 @@ return new class extends Migration
 
             $table->morphs('model');
 
+            $table->string('country_code')->nullable();
+            $table->string('country_calling_code')->nullable();
             $table->string('number')->nullable();
 
             $table->timestamps();

@@ -1,34 +1,26 @@
 import { FormField, FormRow, FormSection } from '@/components/form-layout';
 import MomentDate from '@/components/moment-date';
-import { Button } from '@/components/ui/button';
-import AppLayout from '@/layouts/app-layout';
-import { Head, Link, nexusProps } from '@laravext/react';
-import moment from 'moment';
+import PageMeta from '@/components/page-meta';
+import { Head, nexusProps } from '@laravext/react';
 import { useState } from 'react';
 
 export default () => {
     const [user, setUser] = useState(nexusProps().user);
 
     return (
-        <AppLayout
-            breadcrumbs={[
-                {
-                    title: 'Users',
-                    href: route('users'),
-                },
-                {
-                    title: `#${user.id} ${user.first_name}`,
-                    href: route('users.user', { user: user.id }),
-                },
-            ]}
-            // actions={
-            //     <div className="ml-auto flex items-center gap-2">
-            //         <Button size="xs" asChild>
-            //             <Link href={route('users.user.edit', { user: user.id })}>Edit</Link>
-            //         </Button>
-            //     </div>
-            // }
-        >
+        <>
+            <PageMeta
+                breadcrumbs={[
+                    {
+                        title: 'Users',
+                        href: route('users'),
+                    },
+                    {
+                        title: `#${user.id} ${user.first_name}`,
+                        href: route('users.user', { user: user.id }),
+                    }
+                ]}
+            />
             <Head title="Users" />
             <div className="space-y-8 p-6">
                 <FormSection title="Personal Information" titleWidth="md:w-48">
@@ -74,6 +66,6 @@ export default () => {
                     </FormRow>
                 </FormSection>
             </div>
-        </AppLayout>
+        </>
     );
 };
