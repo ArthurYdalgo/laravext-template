@@ -14,6 +14,7 @@ import pt from './../../lang/pt.json';
 import { initializeTheme } from './hooks/use-appearance';
 import { Toaster } from './components/ui/sonner';
 import { DialogProvider } from './providers/dialog-provider';
+import { localizedRoute } from './lib/utils';
 
 declare global {
     const route: typeof routeFn;
@@ -68,8 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             moment.locale(locale);
 
-            window.route = (name: any, params: any, absolute: boolean) =>
-                routeFn(name, params, absolute, {
+            window.route = (name: any, params: any, absolute?: any) =>
+                localizedRoute(name, params, absolute, {
                     ...laravext.page_data.shared_props.ziggy,
                     url: laravext.page_data.shared_props.ziggy.url,
                 });
