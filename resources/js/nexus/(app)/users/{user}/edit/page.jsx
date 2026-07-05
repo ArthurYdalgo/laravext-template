@@ -6,6 +6,7 @@ import UserForm from '../../form';
 import { dateToDateString, dateToForm } from '@/lib/utils';
 import axios from 'axios';
 import { toast } from "sonner";
+import PageMeta from '@/components/page-meta';
 
 export default () => {
     const [user, setUser] = useState(nexusProps().user);
@@ -41,8 +42,8 @@ export default () => {
     }
 
     return (
-        <AppLayout
-            breadcrumbs={[
+        <>
+            <PageMeta breadcrumbs={[
                 {
                     title: 'Users',
                     href: route('users'),
@@ -59,6 +60,7 @@ export default () => {
         >
             <Head title="Users" />
             <UserForm formHook={{data, setData, errors, reset, processing, setProcessing}} onSubmit={handleSubmit} />
-        </AppLayout>
+        </>
+        // </AppLayout>
     );
 };
