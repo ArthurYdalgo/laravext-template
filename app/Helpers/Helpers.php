@@ -284,7 +284,6 @@ if (!function_exists('isJson')) {
 }
 
 if (!function_exists('failedAuthorizationResponseException')) {
-    function failedAuthorizationResponseException($message = null)
     function failedAuthorizationResponseException($message = null, $data = null)
     {
         $response = (new Controller)->unauthorizedResponse($message ?? __('Unauthorized'), data: $data);
