@@ -1,6 +1,5 @@
 import PageMeta from '@/components/page-meta';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@laravext/react';
 

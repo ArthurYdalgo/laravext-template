@@ -6,6 +6,7 @@ return [
     'allowed_origins'   => [
         'https://laravext-template.test',
         'http://localhost:3000',
+        env('APP_URL')
     ],
     'allowed_origins_patterns' => [],
     'allowed_headers'   => ['*'],

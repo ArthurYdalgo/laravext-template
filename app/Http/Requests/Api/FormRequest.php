@@ -18,9 +18,9 @@ class FormRequest extends HttpFormRequest
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    protected function failedAuthorization($message = null)
+    protected function failedAuthorization($message = null, $data = null)
     {
-        return failedAuthorizationResponseException($message ?? __('Unauthorized'));
+        return failedAuthorizationResponseException($message ?? __('Unauthorized'), $data);
     }
 
     protected static function summarize($validator)

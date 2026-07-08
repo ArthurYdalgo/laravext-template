@@ -31,11 +31,13 @@ document.addEventListener('DOMContentLoaded', function () {
     createLaravextApp({
         nexusResolver: (name: string) => resolveComponent(`./nexus/${name}`, import.meta.glob('./nexus/**/*')),
 
+        defaultRedirectToUrlIntended: false,
+
         beforeSetup: ({ laravext }: any) => {
             const user = laravext.page_data.shared_props?.auth.user;
 
             let fallbackLng = 'en';
-            let defaultLanguage = 'en';
+            let defaultLanguage = 'pt';
 
             // This is just for example purposes, using i18n/moment is not a requirement
             i18n.use(initReactI18next).init({
@@ -79,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         setup: ({ component, laravext }: any) => {
+            
             return <DialogProvider>
                 {component}
                 <Toaster richColors />

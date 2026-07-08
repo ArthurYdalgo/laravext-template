@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { cn, currentRouteIs } from '@/lib/utils';
 import { type NavItem } from '@/types';
-import { laravextPageData, Link, path } from '@laravext/react';
+import { Link, path } from '@laravext/react';
 
 const sidebarNavItems: NavItem[] = [
     {
@@ -28,7 +28,19 @@ const sidebarNavItems: NavItem[] = [
         title: 'Language',
         url: '/settings/language',
         routeName: 'settings.language',
-        icon: null
+        icon: null,
+    },
+    {
+        title: 'Two-Factor Authentication',
+        url: '/settings/two-factor-authentication',
+        routeName: 'settings.two-factor-authentication',
+        icon: null,
+    },
+    {
+        title: 'Passkeys',
+        url: '/settings/passkeys',
+        routeName: 'settings.passkeys',
+        icon: null,
     }
 ];
 
@@ -38,7 +50,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
             <Heading title="Settings" description="Manage your profile and account settings" />
 
             <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
-                <aside className="w-full max-w-xl lg:w-48">
+                <aside className="w-full max-w-xl lg:w-52">
                     <nav className="flex flex-col space-y-1 space-x-0">
                         {sidebarNavItems.map((item) => (
                             <Button
@@ -50,9 +62,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
                                     'bg-muted': item.routeName ? currentRouteIs(item.routeName) : path() === item.url,
                                 })}
                             >
-                                <Link href={item.routeName ? route(item.routeName) : item.url}>
-                                    {item.title}
-                                </Link>
+                                <Link href={item.routeName ? route(item.routeName) : item.url}>{item.title}</Link>
                             </Button>
                         ))}
                     </nav>

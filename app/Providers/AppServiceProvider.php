@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Helpers\Routing\CustomMultilingualRegistrar;
 use Illuminate\Support\ServiceProvider;
+use ChinLeung\MultilingualRoutes\MultilingualRegistrar;
+use Illuminate\Support\Facades\Vite;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +14,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
     }
 
     /**
@@ -19,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Vite::useIntegrityKey('integrity');
     }
 }

@@ -9,15 +9,20 @@ use App\Traits\HasMedia;
 use App\Traits\HasPhones;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\Contracts\PasskeyUser;
+use Laravel\Fortify\PasskeyAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, HasMedia, HasAddresses, HasPhones, HasApiTokens;
+    use HasFactory, Notifiable, HasRoles, HasMedia, HasAddresses, HasPhones, HasApiTokens, TwoFactorAuthenticatable, PasskeyAuthenticatable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -26,10 +31,15 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
+        'google_id',
+        'google_token',
+        'google_refresh_token',
         'password',
-        'email_verified_at',
         'birthday',
+        'confirmation_code',
+        'email_verified_at',
     ];
 
     /**
@@ -58,23 +68,28 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'birthday' => 'date',
             'password' => 'hashed',
+            'google_token' => 'encrypted',
+            'google_refresh_token' => 'encrypted',
         ];
     }
 
     #region Relationships
-    public function uploadedMedia(){
+    public function uploadedMedia()
+    {
         return $this->hasMany(Media::class, 'uploader_id');
     }
 
     #regions Getters and Setters
-    public function getFirstNameAttribute(){
+    public function getFirstNameAttribute()
+    {
         return explode(' ', $this->name)[0] ?? null;
     }
 
-    public function getLastNameAttribute(){
+    public function getLastNameAttribute()
+    {
         $parts = explode(' ', $this->name);
 
-        if(count($parts) <= 1) {
+        if (count($parts) <= 1) {
             return null;
         }
 

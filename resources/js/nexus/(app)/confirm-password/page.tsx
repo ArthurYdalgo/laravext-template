@@ -8,11 +8,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from '@/hooks/use-form';
 import AuthLayout from '@/layouts/auth-layout';
-import { Head, urlIntended, visit } from '@laravext/react';
+import { Head, queryParams, urlIntended, visit } from '@laravext/react';
 import axios from 'axios';
 
 export default function ConfirmPassword() {
     const url = urlIntended();
+    const { redirectTo } = queryParams();
 
     const { data, setData, processing, setProcessing, errors, setErrors } = useForm({
         password: '',
@@ -25,7 +26,7 @@ export default function ConfirmPassword() {
         axios
             .post('api/confirm-password', data)
             .then(() => {
-                visit(url ?? route('home'));
+                visit(redirectTo ?? url ?? route('home'));
             })
             .catch((error) => {
                 setErrors(error.response.data.errors);

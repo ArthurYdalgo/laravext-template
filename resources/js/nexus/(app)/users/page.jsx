@@ -165,7 +165,7 @@ export default function Dashboard() {
                                                     <Edit size={24} />
                                                 </Link>
                                             </Button> */}
-                                            <Button variant='destructive' onClick={() => handleDelete(user)} includeChildrenWhenLoading={false}>
+                                            <Button variant='destructive' onClick={() => handleDelete(user)}>
                                                 <Trash size={20} />
                                             </Button>
                                         </div>

@@ -10,10 +10,14 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         
         @vite(['resources/css/app.css'])
+        @php
+            Vite::useCspNonce(app('csp-nonce'));
+        @endphp
     </head>
     <body class="font-sans antialiased">
         @yield('content')
-        @laravextScripts
+
+        @include('common.laravext')
         @viteReactRefresh
         @vite(['resources/js/app.tsx'])
     </body>

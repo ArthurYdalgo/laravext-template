@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class AuthenticatedSessionController extends Controller
         return nexus(props: [
             'canResetPassword' => Route::has('forgot-password'),
         ])
-        ->render();
+            ->render();
     }
 
     /**
@@ -27,16 +28,59 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        if (! Auth::validate($request->only('email', 'password'))) {
+            return response()->json([
+                'errors' => ['email' => [__('auth.failed')]]
+            ], 422);
+        }
 
-        $request->session()->regenerate();
+        $user = User::where('email', $request->email)->first();
+
         
-        $user = $request->user();
-        $token = $user->createToken(name: 'api-token')->plainTextToken;
+        if ($user->two_factor_secret) {
+            $request->session()->put('login.id', $user->id);
+            $request->session()->put('login.remember', $request->boolean('remember'));
+
+            return response()->json([
+                'two_factor_required' => true,
+            ]);
+        }
+
+        Auth::login($user, $request->boolean('remember'));
+        $request->session()->regenerate();
 
         return response()->json([
             'user' => $user,
-            'token' => $token,
+            'token' => $user->createToken(name: 'api-token')->plainTextToken,
+        ]);
+    }
+
+    public function challenge(Request $request, \Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider $twoFactor)
+    {
+        $request->validate(['code' => 'required|string']);
+
+        // Retrieve the user ID we temporarily stored in the session
+        $user_id = $request->session()->pull('login.id');
+        $remember = $request->session()->pull('login.remember', false);
+
+        if (! $user_id) {
+            return response()->json(['message' => 'Login session expired.'], 422);
+        }
+
+        $user = User::find($user_id);
+
+        // Verify the 6-digit TOTP code using Fortify's engine
+        if (! $twoFactor->verify(decrypt($user->two_factor_secret), $request->code)) {
+            return response()->json(['errors' => ['code' => ['The provided two-factor authentication code was invalid.']]], 422);
+        }
+
+        // The code is correct! Now we fully log them in.
+        Auth::login($user, $remember);
+        $request->session()->regenerate();
+
+        return response()->json([
+            'user' => $user,
+            'token' => $user->createToken(name: 'api-token')->plainTextToken,
         ]);
     }
 
@@ -50,7 +94,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        if($request->expectsJson()) {
+        if ($request->expectsJson()) {
             return response()->noContent();
         }
 

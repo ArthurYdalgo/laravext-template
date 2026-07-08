@@ -83,13 +83,17 @@ class Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function unauthorizedResponse($message = null, $exception = null)
+    public function unauthorizedResponse($message = null, $exception = null, $data = null)
     {
         $message ??= 'Unauthorized';
 
         $response = [
             'message' => $message,
         ];
+
+        if (!is_null($data)) {
+            $response['data'] = $data;
+        }
 
         if (!isEnvProduction() && $exception) {
             $response['exception_message'] = $exception->getMessage();

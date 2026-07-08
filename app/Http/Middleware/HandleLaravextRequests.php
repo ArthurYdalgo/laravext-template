@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Laravext\Middleware;
@@ -15,12 +16,13 @@ class HandleLaravextRequests extends Middleware
 
         $appearance = $request->cookie('appearance', $_COOKIE['appearance'] ?? 'light');
         $sidebar = $request->cookie('sidebar', $_COOKIE['sidebar'] ?? 'true');
+        $user = $request->user();
 
         return array_merge(parent::share($request), [
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user ? new UserResource($user) : null,
             ],
             'ziggy' => [
                 ...(new Ziggy)->toArray(),
