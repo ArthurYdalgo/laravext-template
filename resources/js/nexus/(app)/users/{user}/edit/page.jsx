@@ -56,11 +56,9 @@ export default () => {
                     title: `Edit`,
                     href: route('users.user.edit', { user: user.id }),
                 },
-            ]}
-        >
+            ]} />
             <Head title="Users" />
             <UserForm formHook={{data, setData, errors, reset, processing, setProcessing}} onSubmit={handleSubmit} />
         </>
-        // </AppLayout>
-    );
-};
+    )
+}
